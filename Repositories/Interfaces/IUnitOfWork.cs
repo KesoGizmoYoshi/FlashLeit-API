@@ -1,5 +1,13 @@
 ﻿namespace FlashLeit_API.Repositories.Interfaces;
 
-public class IUnitOfWork
+public interface IUnitOfWork : IDisposable
 {
+
+    public ICardRepository Cards { get; set; }
+
+
+
+    Task CompleteAsync();
+
+    void Dispose();
 }

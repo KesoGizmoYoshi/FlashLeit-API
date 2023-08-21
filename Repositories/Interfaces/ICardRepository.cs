@@ -1,5 +1,7 @@
-﻿namespace FlashLeit_API.Repositories.Interfaces;
+﻿using flashleit_class_library.Models;
 
-public class ICardRepository
+namespace FlashLeit_API.Repositories.Interfaces;
+
+public interface ICardRepository : IRepository<CardModel>
 {
 }

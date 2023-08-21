@@ -10,8 +10,7 @@ public class AchievementModel
 {
     [Key]
     public required int Id { get; set; }
+    [MaxLength]
     public required string Name { get; set; }
-    public required List<string> Thresholds { get; set; }
-
-
+    public bool IsAchieved { get; set; } = false;
 }

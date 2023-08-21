@@ -10,8 +10,6 @@ public class CounterModel
     public required int Id { get; set; }
     [MaxLength(100)]
     public required string Name { get; set; }
-
-    [ForeignKey("Collection")]
     public int CollectionId { get; set; }
     public int AmountOfCardsAnswered { get; set; }
     public int AmountOfCorrectAnswers { get; set; }
@@ -19,7 +17,6 @@ public class CounterModel
     public int AmountOfPerfectRuns { get; set; }
     public int TimesStarted { get; set; }
     public int TimesFinished { get; set; }
-    public CollectionModel? Collection { get; set; }
 
     public CounterModel()
     {

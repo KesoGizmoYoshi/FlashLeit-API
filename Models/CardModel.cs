@@ -11,13 +11,17 @@ public class CardModel
 {
     [Key]
     public int Id { get; set; }
-    public required string Question { get; set; }
-    public required string CorrectAnswer { get; set; }
-    public List<string> Answers { get; set; } = new();
-
-    [ForeignKey("Collection")]
     public int CollectionId { get; set; }
-    public CollectionModel? Collection { get; set; }
+    [MaxLength(150)]
+    public required string Question { get; set; }
+    [MaxLength(250)]
+    public required string CorrectAnswer { get; set; }
+    [MaxLength(150)]
+    public string? IncorrectAnswerOne { get; set; }
+    [MaxLength(150)]
+    public string? IncorrectAnswerTwo { get; set; }
+    [MaxLength(150)]
+    public string? IncorrectAnswerThree { get; set; }
 
     public CardModel()
     {
