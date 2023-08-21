@@ -7,6 +7,9 @@ namespace FlashLeit_API.Repositories.Implementations;
 
 public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
 {
+    
+    // Generic implementation of the interface: 
+    
     protected readonly AppDbContext _context;
 
     public Repository(AppDbContext context)

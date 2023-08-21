@@ -10,7 +10,7 @@ public class AchievementModel
 {
     [Key]
     public required int Id { get; set; }
-    [MaxLength]
+    [MaxLength (150)]
     public required string Name { get; set; }
     public bool IsAchieved { get; set; } = false;
 }
