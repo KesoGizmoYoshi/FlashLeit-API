@@ -11,7 +11,6 @@ public class CollectionModel
 {
     [Key]
     public int Id { get; set; }
-    [ForeignKey("Author")]
     public int UserId { get; set; }
     [MaxLength(50)]
     public required string Name { get; set; }

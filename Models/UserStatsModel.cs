@@ -13,7 +13,5 @@ public class UserStatsModel
     public int Id { get; set; }
     public List<CounterModel> Counters { get; set; }
     public List<AchievementModel> Achievements { get; set; }
-    [ForeignKey("User")]
     public int UserId { get; set; }
-    public UserModel? User { get; set; }
 }

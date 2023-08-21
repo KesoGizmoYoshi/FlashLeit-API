@@ -8,7 +8,7 @@ public class CounterModel
 {
     [Key]
     public required int Id { get; set; }
-    [MaxLength(100)]
+    [MaxLength(50)]
     public required string Name { get; set; }
     public int CollectionId { get; set; }
     public int AmountOfCardsAnswered { get; set; }
