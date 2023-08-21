@@ -1,6 +1,7 @@
 ﻿using Azure.Core;
 using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
+using flashleit_class_library.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace FlashLeit_API.Data.Database;
@@ -13,6 +14,7 @@ public class AppDbContext : DbContext
     }
 
     public DbSet<TestModel> TestTable { get; set; }
+    public DbSet<CardModel> Cards { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
