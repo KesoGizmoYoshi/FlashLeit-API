@@ -12,7 +12,7 @@ public class UserModel
     [MaxLength(50)]
     public required string UserName { get; set; }
     public required List<CollectionModel> Collections { get; set; } = new();
-    public required UserStatsModel UserStats { get; set; };
+    public required UserStatsModel UserStats { get; set; }
 
     public UserModel()
     {

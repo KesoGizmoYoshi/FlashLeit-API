@@ -9,7 +9,7 @@ public class CounterModel
     [Key]
     public required int CounterId { get; set; }
     [MaxLength(50)]
-    public required string Name { get; set; }
+    public required string Title { get; set; }
     public int CollectionId { get; set; }
     public int UserStatsId { get; set; }
     public int AmountOfCardsAnswered { get; set; }

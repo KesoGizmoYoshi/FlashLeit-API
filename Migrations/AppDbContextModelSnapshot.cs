@@ -24,13 +24,13 @@ namespace FlashLeit_API.Migrations
 
             modelBuilder.Entity("CollectionModelUserModel", b =>
                 {
-                    b.Property<int>("CollectionsId")
+                    b.Property<int>("CollectionsCollectionId")
                         .HasColumnType("int");
 
                     b.Property<int>("UsersUserId")
                         .HasColumnType("int");
 
-                    b.HasKey("CollectionsId", "UsersUserId");
+                    b.HasKey("CollectionsCollectionId", "UsersUserId");
 
                     b.HasIndex("UsersUserId");
 
@@ -56,11 +56,11 @@ namespace FlashLeit_API.Migrations
 
             modelBuilder.Entity("flashleit_class_library.Models.AchievementModel", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("AchievementId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AchievementId"));
 
                     b.Property<bool>("IsAchieved")
                         .HasColumnType("bit");
@@ -70,12 +70,15 @@ namespace FlashLeit_API.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
-                    b.Property<int?>("UserStatsModelId")
+                    b.Property<int>("UserStatsId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<int?>("UserStatsModelUserStatsId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("UserStatsModelId");
+                    b.HasKey("AchievementId");
+
+                    b.HasIndex("UserStatsModelUserStatsId");
 
                     b.ToTable("Achievements");
                 });
@@ -91,7 +94,7 @@ namespace FlashLeit_API.Migrations
                     b.Property<int>("CollectionId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CollectionModelId")
+                    b.Property<int?>("CollectionModelCollectionId")
                         .HasColumnType("int");
 
                     b.Property<string>("CorrectAnswer")
@@ -118,18 +121,21 @@ namespace FlashLeit_API.Migrations
 
                     b.HasKey("CardId");
 
-                    b.HasIndex("CollectionModelId");
+                    b.HasIndex("CollectionModelCollectionId");
 
                     b.ToTable("Cards");
                 });
 
             modelBuilder.Entity("flashleit_class_library.Models.CollectionModel", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("CollectionId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CollectionId"));
+
+                    b.Property<int>("CounterId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -139,18 +145,18 @@ namespace FlashLeit_API.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("CollectionId");
 
                     b.ToTable("Collections");
                 });
 
             modelBuilder.Entity("flashleit_class_library.Models.CounterModel", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("CounterId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CounterId"));
 
                     b.Property<int>("AmountOfCardsAnswered")
                         .HasColumnType("int");
@@ -178,12 +184,15 @@ namespace FlashLeit_API.Migrations
                     b.Property<int>("TimesStarted")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserStatsModelId")
+                    b.Property<int>("UserStatsId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<int?>("UserStatsModelUserStatsId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("UserStatsModelId");
+                    b.HasKey("CounterId");
+
+                    b.HasIndex("UserStatsModelUserStatsId");
 
                     b.ToTable("Counters");
                 });
@@ -206,28 +215,28 @@ namespace FlashLeit_API.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<int>("UserStatsId")
+                        .HasColumnType("int");
+
                     b.HasKey("UserId");
+
+                    b.HasIndex("UserStatsId");
 
                     b.ToTable("Users");
                 });
 
             modelBuilder.Entity("flashleit_class_library.Models.UserStatsModel", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("UserStatsId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserStatsId"));
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserModelUserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserModelUserId");
+                    b.HasKey("UserStatsId");
 
                     b.ToTable("UserStats");
                 });
@@ -236,7 +245,7 @@ namespace FlashLeit_API.Migrations
                 {
                     b.HasOne("flashleit_class_library.Models.CollectionModel", null)
                         .WithMany()
-                        .HasForeignKey("CollectionsId")
+                        .HasForeignKey("CollectionsCollectionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -251,38 +260,37 @@ namespace FlashLeit_API.Migrations
                 {
                     b.HasOne("flashleit_class_library.Models.UserStatsModel", null)
                         .WithMany("Achievements")
-                        .HasForeignKey("UserStatsModelId");
+                        .HasForeignKey("UserStatsModelUserStatsId");
                 });
 
             modelBuilder.Entity("flashleit_class_library.Models.CardModel", b =>
                 {
                     b.HasOne("flashleit_class_library.Models.CollectionModel", null)
                         .WithMany("FlashCards")
-                        .HasForeignKey("CollectionModelId");
+                        .HasForeignKey("CollectionModelCollectionId");
                 });
 
             modelBuilder.Entity("flashleit_class_library.Models.CounterModel", b =>
                 {
                     b.HasOne("flashleit_class_library.Models.UserStatsModel", null)
                         .WithMany("Counters")
-                        .HasForeignKey("UserStatsModelId");
+                        .HasForeignKey("UserStatsModelUserStatsId");
                 });
 
-            modelBuilder.Entity("flashleit_class_library.Models.UserStatsModel", b =>
+            modelBuilder.Entity("flashleit_class_library.Models.UserModel", b =>
                 {
-                    b.HasOne("flashleit_class_library.Models.UserModel", null)
-                        .WithMany("UserStats")
-                        .HasForeignKey("UserModelUserId");
+                    b.HasOne("flashleit_class_library.Models.UserStatsModel", "UserStats")
+                        .WithMany()
+                        .HasForeignKey("UserStatsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("UserStats");
                 });
 
             modelBuilder.Entity("flashleit_class_library.Models.CollectionModel", b =>
                 {
                     b.Navigation("FlashCards");
-                });
-
-            modelBuilder.Entity("flashleit_class_library.Models.UserModel", b =>
-                {
-                    b.Navigation("UserStats");
                 });
 
             modelBuilder.Entity("flashleit_class_library.Models.UserStatsModel", b =>

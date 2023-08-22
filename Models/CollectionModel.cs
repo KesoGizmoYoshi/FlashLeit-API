@@ -13,7 +13,7 @@ public class CollectionModel
     public int CollectionId { get; set; }
     public int UserId { get; set; }
     [MaxLength(50)]
-    public required string Name { get; set; }
+    public required string Title { get; set; }
     public List<CardModel> FlashCards { get; set; } = new();
     public List<UserModel> Users { get; set; } = new();
     public int CounterId { get; set; }
