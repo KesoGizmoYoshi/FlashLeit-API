@@ -15,6 +15,11 @@ public class AppDbContext : DbContext
 
     public DbSet<TestModel> TestTable { get; set; }
     public DbSet<CardModel> Cards { get; set; }
+    public DbSet<UserModel> Users { get; set; }
+    public DbSet<CollectionModel> Collections { get; set; }
+    public DbSet<UserStatsModel> UserStats { get; set; }
+    public DbSet<CounterModel> Counters { get; set; }
+    public DbSet<AchievementModel> Achievements { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

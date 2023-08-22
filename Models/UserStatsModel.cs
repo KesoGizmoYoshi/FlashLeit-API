@@ -10,10 +10,8 @@ namespace flashleit_class_library.Models;
 public class UserStatsModel
 {
     [Key]
-    public int Id { get; set; }
-    public List<CounterModel> Counters { get; set; }
-    public List<AchievementModel> Achievements { get; set; }
-    [ForeignKey("User")]
+    public int UserStatsId { get; set; }
+    public List<CounterModel> Counters { get; set; } = new();
+    public List<AchievementModel> Achievements { get; set; } = new();
     public int UserId { get; set; }
-    public UserModel? User { get; set; }
 }

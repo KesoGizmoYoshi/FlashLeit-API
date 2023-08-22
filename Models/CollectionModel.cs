@@ -10,13 +10,13 @@ namespace flashleit_class_library.Models;
 public class CollectionModel
 {
     [Key]
-    public int Id { get; set; }
-    [ForeignKey("Author")]
-    public int AuthorId { get; set; }
-    public required string Name { get; set; }
-    public List<CardModel>? FlashCards { get; set; }
-    public List<UserModel>? Users { get; set; }
-    public UserModel? Author { get; set; }
+    public int CollectionId { get; set; }
+    public int UserId { get; set; }
+    [MaxLength(50)]
+    public required string Title { get; set; }
+    public List<CardModel> FlashCards { get; set; } = new();
+    public List<UserModel> Users { get; set; } = new();
+    public int CounterId { get; set; }
 
     public CollectionModel()
     {
