@@ -13,6 +13,7 @@ public class AppDbContext : DbContext
 
     }
 
+    public DbSet<SummaryModel> Summaries { get; set; }
     public DbSet<TestModel> TestTable { get; set; }
     public DbSet<CardModel> Cards { get; set; }
 
