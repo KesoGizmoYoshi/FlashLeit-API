@@ -1,11 +1,12 @@
 ﻿using FlashLeit_API.Data.Database;
+using FlashLeit_API.DataAccess;
 using FlashLeit_API.Repositories.Interfaces;
 
 namespace FlashLeit_API.Repositories.Implementations;
 
 public class UnitOfWork : IUnitOfWork
 {
-    private readonly AppDbContext _context;
+    private readonly SqlDataAccess _sql;
 
     public ICardRepository Cards { get; set; }
     public IUserRepository Users { get; set; }
@@ -14,25 +15,25 @@ public class UnitOfWork : IUnitOfWork
     public IUserStatsRepository UserStats { get; set; }
     public IAchievementRepository Achievements { get; set; }
 
-    public UnitOfWork(AppDbContext context)
+    public UnitOfWork(SqlDataAccess sql)
     {
-        _context = context;
-        Cards = new CardRepository(context);
-        Users = new UserRepository(context);
-        Collections = new CollectionRepository(context);
-        Counters = new CounterRepository(context);
-        UserStats = new UserStatsRepository(context);
-        Achievements = new AchievementRepository(context);
+        _sql = sql;
+        Cards = new CardRepository(sql);
+        Users = new UserRepository(sql);
+        Collections = new CollectionRepository(sql);
+        Counters = new CounterRepository(sql);
+        UserStats = new UserStatsRepository(sql);
+        Achievements = new AchievementRepository(sql);
     }
 
-    public async Task CompleteAsync()
-    {
-        await _context.SaveChangesAsync();
-    }
+    //public async Task CompleteAsync()
+    //{
+    //    await _context.SaveChangesAsync();
+    //}
 
     public void Dispose()
     {
-        _context.Dispose();
+        
     }
 
 

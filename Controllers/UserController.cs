@@ -18,6 +18,8 @@ public class UserController : ControllerBase
     [HttpGet("{id}")]
     public string Get(int id)
     {
+
+
         return "value";
     }
 

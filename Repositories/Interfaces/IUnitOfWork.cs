@@ -12,7 +12,7 @@ public interface IUnitOfWork : IDisposable
     public IAchievementRepository Achievements { get; set; }
 
 
-    Task CompleteAsync();
+    //Task CompleteAsync();
 
     void Dispose();
 }

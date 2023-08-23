@@ -1,4 +1,5 @@
 ﻿using FlashLeit_API.Data.Database;
+using FlashLeit_API.DataAccess;
 using FlashLeit_API.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
@@ -7,18 +8,18 @@ namespace FlashLeit_API.Repositories.Implementations;
 
 public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
 {
-    
-    // Generic implementation of the interface: 
-    
-    protected readonly AppDbContext _context;
 
-    public Repository(AppDbContext context)
+    // Generic implementation of the interface: 
+
+    protected readonly ISqlDataAccess _sql;
+
+    public Repository(SqlDataAccess sql)
     {
-        _context = context;
+        _sql = sql;
     }
-    public async Task<TEntity?> GetByIdAsync(int id)
+    public async Task<TEntity> GetByIdAsync(int id)
     {
-        return await _context.Set<TEntity>().FindAsync(id);
+        return await _sql.LoadData<TEntity, U>(string storedProcedure, U parameters);
     }
     public async Task<IEnumerable<TEntity>> GetAllAsync()
     {
