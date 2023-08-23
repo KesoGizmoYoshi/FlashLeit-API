@@ -1,4 +1,5 @@
 ﻿using FlashLeit_API.Data.Database;
+using FlashLeit_API.DataAccess;
 using FlashLeit_API.Repositories.Interfaces;
 using flashleit_class_library.Models;
 using Microsoft.Identity.Client.Extensibility;
@@ -10,10 +11,10 @@ public class CardRepository : Repository<CardModel>, ICardRepository
 
     // Implementation of application specific operations.
 
-    private readonly AppDbContext _context;
+    private readonly SqlDataAccess _sql;
 
-    public CardRepository(AppDbContext context) : base(context)
+    public CardRepository(SqlDataAccess sql) : base(sql)
     {
-        _context = context;
+        _sql = sql;
     }
 }

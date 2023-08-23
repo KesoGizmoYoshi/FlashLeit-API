@@ -10,7 +10,7 @@ public class UserRepository: Repository<UserModel>, IUserRepository
 
     private readonly SqlDataAccess _sql;
 
-    public UserRepository(SqlDataAccess sql)
+    public UserRepository(SqlDataAccess sql) : base(sql)
     {
         _sql = sql;
     }
