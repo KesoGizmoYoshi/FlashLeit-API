@@ -9,7 +9,7 @@ namespace flashleit_class_library.Models;
 public class AchievementModel
 {
     [Key]
-    public required int AchievementId { get; set; }
+    public required int Id { get; set; }
     [MaxLength (150)]
     public required string Title { get; set; }
     public bool IsAchieved { get; set; } = false;

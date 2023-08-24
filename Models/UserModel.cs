@@ -6,7 +6,7 @@ namespace flashleit_class_library.Models;
 public class UserModel
 {
     [Key]
-    public int UserId { get; set; }
+    public int Id { get; set; }
     [MaxLength(50)]
     public required string Email { get; set; }
     [MaxLength(50)]

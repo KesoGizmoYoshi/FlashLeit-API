@@ -7,7 +7,7 @@ namespace flashleit_class_library.Models;
 public class CounterModel
 {
     [Key]
-    public required int CounterId { get; set; }
+    public required int Id { get; set; }
     [MaxLength(50)]
     public required string Title { get; set; }
     public int CollectionId { get; set; }

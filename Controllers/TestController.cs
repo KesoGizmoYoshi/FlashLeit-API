@@ -38,7 +38,7 @@ public class TestController : ControllerBase
 
         //dynamic userId = new { UserId = id };
 
-        return Ok(await _unitOfWork.Users.GetByIdAsync("dbo.spUsers_GetById", new { UserId = id}));
+        return Ok(await _unitOfWork.Users.GetByIdAsync("dbo.spUsers_GetById", new { Id = id}));
 
         //return Ok(await _data.GetById(id));
 

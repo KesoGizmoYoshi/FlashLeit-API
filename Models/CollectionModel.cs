@@ -10,7 +10,7 @@ namespace flashleit_class_library.Models;
 public class CollectionModel
 {
     [Key]
-    public int CollectionId { get; set; }
+    public int Id { get; set; }
     public int UserId { get; set; }
     [MaxLength(50)]
     public required string Title { get; set; }
