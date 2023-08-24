@@ -31,9 +31,7 @@ public class TestController : ControllerBase
     public async Task<IActionResult> Get(int id)
     {
         //return await _context.TestTable.ToListAsync();
-
-
-
-        return Ok(await _unitOfWork.Users.GetByIdAsync("dbo.spUsers_GetById", 1));
+        //return Ok(await _unitOfWork.Users.GetByIdAsync("dbo.spUsers_GetById", 1));
+        return Ok(await _unitOfWork.Users.GetByIdAsync("dbo.spUsers_GetById", id));
     }
 }
