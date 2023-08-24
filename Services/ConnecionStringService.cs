@@ -22,17 +22,8 @@ public class ConnectionStringService : IConnectionStringService
             }
         };
 
-        _client = new SecretClient(new Uri("https://flashleit-keys.vault.azure.net/"), new DefaultAzureCredential(new DefaultAzureCredentialOptions
-        {
-            ExcludeEnvironmentCredential = true,
-            ExcludeInteractiveBrowserCredential = true,
-            ExcludeAzurePowerShellCredential = true,
-            ExcludeSharedTokenCacheCredential = true,
-            ExcludeVisualStudioCodeCredential = true,
-            ExcludeVisualStudioCredential = true,
-            ExcludeAzureCliCredential = false,
-            ExcludeManagedIdentityCredential = true // This have to be set as "false" when merging to main
-        }), _options);
+        _client = new SecretClient(new Uri("https://flashleit-keys.vault.azure.net/"), 
+            new ChainedTokenCredential(new AzureCliCredential(), new ManagedIdentityCredential()), _options);
     }
     public string GetConnectionStringFromAzureKeyVault()
     {
