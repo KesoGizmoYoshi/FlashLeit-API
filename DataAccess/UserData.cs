@@ -2,7 +2,7 @@
 
 namespace FlashLeit_API.DataAccess;
 
-public class UserData
+public class UserData : IUserData
 {
     private readonly ISqlDataAccess _sql;
 

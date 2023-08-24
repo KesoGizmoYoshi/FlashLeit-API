@@ -1,4 +1,5 @@
 using FlashLeit_API.Data.Database;
+using FlashLeit_API.DataAccess;
 using FlashLeit_API.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,11 +12,14 @@ public class TestController : ControllerBase
 
     private readonly AppDbContext _context;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IUserData _data;
 
-    public TestController(AppDbContext context, IUnitOfWork unitOfWork)
+
+    public TestController(AppDbContext context, IUnitOfWork unitOfWork, IUserData data)
     {
         _context = context;
         _unitOfWork = unitOfWork;
+        _data = data;
     }
 
     [HttpGet("woop")]
@@ -32,8 +36,12 @@ public class TestController : ControllerBase
     {
         //return await _context.TestTable.ToListAsync();
 
+        //dynamic userId = new { UserId = id };
+
+        return Ok(await _unitOfWork.Users.GetByIdAsync("dbo.spUsers_GetById", new { UserId = id}));
+
+        //return Ok(await _data.GetById(id));
 
 
-        return Ok(await _unitOfWork.Users.GetByIdAsync("dbo.spUsers_GetById", 1));
     }
 }

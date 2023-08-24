@@ -16,11 +16,11 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
         _sql = sql;
     }
-    public async Task<TEntity> GetByIdAsync(string storedProcedure, int id)
+    public async Task<IEnumerable<TEntity>> GetByIdAsync(string storedProcedure, dynamic parameters)
     {
-        var results = await _sql.LoadData<TEntity, int>(storedProcedure, id);
+        var results = await _sql.LoadData<TEntity, dynamic>(storedProcedure, parameters);
 
-        return results.FirstOrDefault(); 
+        return results; 
     }
     public async Task<IEnumerable<TEntity>> GetAllAsync(string storedProcedure, dynamic parameters)
     {

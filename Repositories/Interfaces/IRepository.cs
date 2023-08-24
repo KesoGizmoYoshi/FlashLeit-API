@@ -8,7 +8,7 @@ public interface IRepository<TEntity> where TEntity : class
     // In the IRepository interface we have all generic
     // functions that can be applied to basically any
     // application.
-    Task<TEntity?> GetByIdAsync(string storedProcedure, int id);
+    Task<IEnumerable<TEntity?>> GetByIdAsync(string storedProcedure, dynamic parameters);
     Task<IEnumerable<TEntity>> GetAllAsync(string storedProcedure, dynamic parameters);
     
     //Task<IEnumerable<TEntity?>> GetAsync(Expression<Func<T, bool>> predicate); -- Delegates?
