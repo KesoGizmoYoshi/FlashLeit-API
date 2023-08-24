@@ -11,9 +11,9 @@ public class CardRepository : Repository<CardModel>, ICardRepository
 
     // Implementation of application specific operations.
 
-    private readonly SqlDataAccess _sql;
+    private readonly ISqlDataAccess _sql;
 
-    public CardRepository(SqlDataAccess sql) : base(sql)
+    public CardRepository(ISqlDataAccess sql) : base(sql)
     {
         _sql = sql;
     }

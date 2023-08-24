@@ -7,9 +7,9 @@ namespace FlashLeit_API.Repositories.Implementations;
 
 public class CounterRepository: Repository<CounterModel>, ICounterRepository
 {
-    private readonly SqlDataAccess _sql;
+    private readonly ISqlDataAccess _sql;
 
-    public CounterRepository(SqlDataAccess sql): base(sql)
+    public CounterRepository(ISqlDataAccess sql): base(sql)
     {
         _sql = sql;
     }

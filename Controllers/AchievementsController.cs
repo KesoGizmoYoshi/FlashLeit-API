@@ -44,22 +44,22 @@ public class AchievementsController : ControllerBase
     }
 
     // PUT api/<AchievementsController>/5
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Put(int id, [FromBody] AchievementModel achievement)
-    {
-        if (achievement is null || !id.Equals(achievement.AchievementId)) return BadRequest();
+    //[HttpPut("{id}")]
+    //public async Task<IActionResult> Put(int id, [FromBody] AchievementModel achievement)
+    //{
+    //    if (achievement is null || !id.Equals(achievement.AchievementId)) return BadRequest();
 
-        int affectedRows = await _unitOfWork.Achievements.Update("dbo.spAchievments_UpdateAchievement", achievement);
+    //    int affectedRows = await _unitOfWork.Achievements.Update("dbo.spAchievments_UpdateAchievement", achievement);
 
-        return (affectedRows == 1) ? Ok(achievement) : NotFound();
-    }
+    //    return (affectedRows == 1) ? Ok(achievement) : NotFound();
+    //}
 
-    // DELETE api/<AchievementsController>/5
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(int id)
-    {
-        int affectedRows = await _unitOfWork.Achievements.Remove("dbo.spAchievments_DeleteById", id);
+    //// DELETE api/<AchievementsController>/5
+    //[HttpDelete("{id}")]
+    //public async Task<IActionResult> Delete(int id)
+    //{
+    //    int affectedRows = await _unitOfWork.Achievements.Remove("dbo.spAchievments_DeleteById", id);
 
-        return (affectedRows == 1) ? Ok() : NotFound();
-    }
+    //    return (affectedRows == 1) ? Ok() : NotFound();
+    //}
 }

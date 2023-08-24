@@ -10,9 +10,9 @@ namespace FlashLeit_API.Repositories.Implementations;
 public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
 {
 
-    protected readonly SqlDataAccess _sql;
+    protected readonly ISqlDataAccess _sql;
 
-    public Repository(SqlDataAccess sql)
+    public Repository(ISqlDataAccess sql)
     {
         _sql = sql;
     }

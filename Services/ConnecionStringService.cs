@@ -6,9 +6,12 @@ namespace FlashLeit_API.Services;
 
 public class ConnectionStringService : IConnectionStringService
 {
-    public string GetConnectionStringFromAzureKeyVault()
+    private readonly SecretClient _client;
+    private readonly SecretClientOptions _options;
+
+    public ConnectionStringService()
     {
-        SecretClientOptions options = new SecretClientOptions()
+        _options = new SecretClientOptions()
         {
             Retry =
             {
@@ -19,10 +22,22 @@ public class ConnectionStringService : IConnectionStringService
             }
         };
 
-        var client = new SecretClient(new Uri("https://flashleit-keys.vault.azure.net/"), new DefaultAzureCredential(), options);
+        _client = new SecretClient(new Uri("https://flashleit-keys.vault.azure.net/"), new DefaultAzureCredential(new DefaultAzureCredentialOptions
+        {
+            ExcludeEnvironmentCredential = true,
+            ExcludeInteractiveBrowserCredential = true,
+            ExcludeAzurePowerShellCredential = true,
+            ExcludeSharedTokenCacheCredential = true,
+            ExcludeVisualStudioCodeCredential = true,
+            ExcludeVisualStudioCredential = true,
+            ExcludeAzureCliCredential = false,
+            ExcludeManagedIdentityCredential = true // This have to be set as "false" when merging to main
+        }), _options);
+    }
+    public string GetConnectionStringFromAzureKeyVault()
+    {
+        KeyVaultSecret connectionString = _client.GetSecret("ConnectionString--FlashleitDbConnection");
 
-        KeyVaultSecret secret = client.GetSecret("ConnectionString--FlashleitDbConnection");
-
-        return secret.Value;
+        return connectionString.Value;
     }
 }

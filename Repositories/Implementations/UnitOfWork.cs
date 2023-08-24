@@ -6,7 +6,7 @@ namespace FlashLeit_API.Repositories.Implementations;
 
 public class UnitOfWork : IUnitOfWork
 {
-    private readonly SqlDataAccess _sql;
+    private readonly ISqlDataAccess _sql;
 
     public ICardRepository Cards { get; set; }
     public IUserRepository Users { get; set; }
@@ -15,15 +15,15 @@ public class UnitOfWork : IUnitOfWork
     public IUserStatsRepository UserStats { get; set; }
     public IAchievementRepository Achievements { get; set; }
 
-    public UnitOfWork(SqlDataAccess sql)
+    public UnitOfWork(ISqlDataAccess sql)
     {
         _sql = sql;
-        Cards = new CardRepository(sql);
-        Users = new UserRepository(sql);
-        Collections = new CollectionRepository(sql);
-        Counters = new CounterRepository(sql);
-        UserStats = new UserStatsRepository(sql);
-        Achievements = new AchievementRepository(sql);
+        Cards = new CardRepository(_sql);
+        Users = new UserRepository(_sql);
+        Collections = new CollectionRepository(_sql);
+        Counters = new CounterRepository(_sql);
+        UserStats = new UserStatsRepository(_sql);
+        Achievements = new AchievementRepository(_sql);
     }
 
     //public async Task CompleteAsync()

@@ -7,9 +7,9 @@ namespace FlashLeit_API.Repositories.Implementations;
 
 public class AchievementRepository: Repository<AchievementModel>, IAchievementRepository
 {
-    private readonly SqlDataAccess _sql;
+    private readonly ISqlDataAccess _sql;
 
-    public AchievementRepository(SqlDataAccess sql) : base(sql)
+    public AchievementRepository(ISqlDataAccess sql) : base(sql)
     {
         _sql = sql;
     }

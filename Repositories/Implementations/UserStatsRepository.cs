@@ -7,9 +7,9 @@ namespace FlashLeit_API.Repositories.Implementations;
 
 public class UserStatsRepository: Repository<UserStatsModel>, IUserStatsRepository
 {
-    private readonly SqlDataAccess _sql;
+    private readonly ISqlDataAccess _sql;
 
-    public UserStatsRepository(SqlDataAccess sql) : base(sql)
+    public UserStatsRepository(ISqlDataAccess sql) : base(sql)
     {
         _sql = sql;
     }

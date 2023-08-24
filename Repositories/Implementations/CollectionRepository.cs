@@ -8,9 +8,9 @@ namespace FlashLeit_API.Repositories.Implementations;
 public class CollectionRepository : Repository<CollectionModel>, ICollectionRepository
 {
 
-    private readonly SqlDataAccess _sql;
+    private readonly ISqlDataAccess _sql;
 
-    public CollectionRepository(SqlDataAccess sql) : base (sql)
+    public CollectionRepository(ISqlDataAccess sql) : base (sql)
     {
         _sql = sql;
     }

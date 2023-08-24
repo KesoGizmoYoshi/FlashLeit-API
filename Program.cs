@@ -3,6 +3,8 @@ using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
 using FlashLeit_API.Data.Database;
 using FlashLeit_API.DataAccess;
+using FlashLeit_API.Repositories.Implementations;
+using FlashLeit_API.Repositories.Interfaces;
 using FlashLeit_API.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,8 +20,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Dapper -- Stored Procedures
-builder.Services.AddScoped<IConnectionStringService, ConnectionStringService>();
+builder.Services.AddSingleton<IConnectionStringService, ConnectionStringService>();
 builder.Services.AddSingleton<ISqlDataAccess, SqlDataAccess>();
+builder.Services.AddSingleton<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
 
