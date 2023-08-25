@@ -39,7 +39,7 @@ public class AchievementsController : ControllerBase
     {
         if (achievement is null) return BadRequest();
 
-        await _unitOfWork.Achievements.AddAsync("dbo.spAchievments_Create", achievement);
+        await _unitOfWork.Achievements.AddAsync("dbo.spAchievments_Insert", achievement);
 
         return Ok(achievement);
     }

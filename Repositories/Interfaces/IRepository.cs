@@ -17,6 +17,6 @@ public interface IRepository<TEntity> where TEntity : class
     // Add list of objects:
     //Task AddRangeAsync(IEnumerable<TEntity> entities);
     void Update(string storedProcedure, dynamic parameters);
-    void Delete(string storedProcedure, dynamic parameters);
+    Task<int> Delete(string storedProcedure, dynamic parameters);
     //Task RemoveRangeAsync(IEnumerable<TEntity> entities);
 }

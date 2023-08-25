@@ -12,6 +12,8 @@ public class UserModel
     [MaxLength(50)]
     public required string AccountName { get; set; }
     public required string UserName { get; set; }
+    [MaxLength(50)]
+    public string AvatarUrl { get; set; }
     public required List<CollectionModel> Collections { get; set; } = new();
     public required UserStatsModel UserStats { get; set; }
 

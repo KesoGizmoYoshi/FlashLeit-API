@@ -20,7 +20,7 @@ public class TestController : ControllerBase
         _context = context;
         _unitOfWork = unitOfWork;
         _data = data;
-    }
+    } 
 
     [HttpGet("woop")]
     public async Task<IActionResult> Get()
@@ -29,7 +29,7 @@ public class TestController : ControllerBase
 
         
 
-        return Ok(await _unitOfWork.Users.GetAllAsync("dbo.spUsers_GetAll", 1));
+        return Ok(await _unitOfWork.Users.GetAllAsync("dbo.spUsers_GetAll", new { }));
     }
     [HttpGet("{id}")]
     public async Task<IActionResult> Get(int id)

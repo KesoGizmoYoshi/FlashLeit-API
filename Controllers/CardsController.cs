@@ -26,7 +26,7 @@ public class CardsController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> Get(int id)
     {
-        CardModel? card = await _unitOfWork.Cards.GetByIdAsync("dbo.spCards_GetById", id);
+        var card = await _unitOfWork.Cards.GetByIdAsync("dbo.spCards_GetById", id);
 
         return (card != null) ? Ok(card) : NotFound();
 
@@ -38,7 +38,7 @@ public class CardsController : ControllerBase
     {
         if (card != null)
         {
-            await _unitOfWork.Cards.AddAsync("dbo.spCards_Create", card);
+            await _unitOfWork.Cards.AddAsync("dbo.spCards_Insert", card);
             return Ok(card);
         }
 
@@ -62,14 +62,11 @@ public class CardsController : ControllerBase
 
     // DELETE api/<CardsController>/5
     [HttpDelete("{id}")]
-    public async void Delete(int id)
+    public async Task<IActionResult> Delete(int id)
     {
-        CardModel? card = await _unitOfWork.Cards.GetByIdAsync("dbo.spCards_GetById", id);
+        int affectedRows = await _unitOfWork.Cards.Delete("dbo.spCards_DeleteById", id);
 
-        if (card != null)
-        {
-            _unitOfWork.Cards.Delete("dbo.spCard_DeleteById", card);
-        }
+        return affectedRows > 0 ? Ok("Delete successful") : NotFound("Card not found in the database");
     }
 
     // NOT IN USE!If affactedrows isn't working then Consider using for deleting in scenarios where cards are allready loaded

@@ -1,24 +1,30 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+﻿using FlashLeit_API.Repositories.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FlashLeit_API.Controllers;
 [Route("api/[controller]")]
 [ApiController]
 public class UserController : ControllerBase
 {
+    private readonly IUnitOfWork _unitOfWork;
+
+    public UserController(IUnitOfWork unitOfWork)
+    {
+        _unitOfWork = unitOfWork;
+    }
+
     // GET: api/<UserController>
     [HttpGet]
-    public IEnumerable<string> Get()
+    public async Task<IActionResult> Get()
     {
-        return new string[] { "value1", "value2" };
+        return Ok(await _unitOfWork.Users.GetAllAsync("dbo.spUsers_GetAll", new { }));
     }
 
     // GET api/<UserController>/5
     [HttpGet("{id}")]
-    public string Get(int id)
+    public async Task<IActionResult> Get(int id)
     {
-        return "value";
+        return Ok(await _unitOfWork.Users.GetByIdAsync("dbo.spUsers_GetById", new {Id = id}));
     }
 
     // POST api/<UserController>
@@ -35,7 +41,10 @@ public class UserController : ControllerBase
 
     // DELETE api/<UserController>/5
     [HttpDelete("{id}")]
-    public void Delete(int id)
+    public async Task<IActionResult> Delete(int id)
     {
+        int affectedRows = await _unitOfWork.Users.Delete("dbo.spUsers_DeleteById", new { Id = id });
+
+        return affectedRows > 0 ? Ok() : NotFound("User doesn't exist in the database");
     }
 }

@@ -1,6 +1,7 @@
 ﻿using FlashLeit_API.Data.Database;
 using FlashLeit_API.DataAccess;
 using FlashLeit_API.Repositories.Interfaces;
+using flashleit_class_library.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Linq.Expressions;
@@ -50,9 +51,11 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
         _sql.SaveData<TEntity>(storedProcedure, parameters);
     }
-    public void Delete(string storedProcedure, dynamic parameters)
+    public async Task<int> Delete(string storedProcedure, dynamic parameters)
     {
-        _sql.SaveData<TEntity>(storedProcedure, parameters);
+        var affectedRows = await _sql.SaveData<dynamic>(storedProcedure, parameters);
+
+        return affectedRows;
     }
     //public async Task RemoveRangeAsync(IEnumerable<TEntity> entities)
     //{

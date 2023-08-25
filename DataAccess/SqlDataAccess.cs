@@ -3,13 +3,17 @@ using Dapper;
 using System.Data;
 using System.Data.SqlClient;
 using FlashLeit_API.Services;
+using System.Diagnostics;
+using flashleit_class_library.Models;
 
 namespace FlashLeit_API.DataAccess;
+
+// This class talks to SQL through Dapper
 
 public class SqlDataAccess : ISqlDataAccess
 {
     // NuGet packages:
-    // Microsoft.Extensions.Configuration
+    // Microsoft.Extensions.Configuration --> Allows us to talk to appsettings.json
     // Dapper
     // System.Data.SqlClient
 
@@ -43,7 +47,7 @@ public class SqlDataAccess : ISqlDataAccess
     }
 
 
-    public Task SaveData<T>(
+    public async Task<int> SaveData<T>(
         string storedProcedure,
         T parameters)
     {
@@ -51,11 +55,49 @@ public class SqlDataAccess : ISqlDataAccess
 
         using IDbConnection connection = new SqlConnection(connectionString);
 
-        return connection.ExecuteAsync(
+        int affectedRows = await connection.ExecuteAsync(
             storedProcedure,
             parameters,
             commandType: CommandType.StoredProcedure);
+
+        return affectedRows;
     }
 
+    public async Task<CollectionModel> GetCollectionWithCardsAsync(string storedProcedure, int collectionId)
+    {
+        string connectionString = _connection.GetConnectionStringFromAzureKeyVault();
 
+        using IDbConnection connection = new SqlConnection(connectionString);
+
+        // Dictionary<TKey, TValue> to store key-value pairs.
+        var lookup = new Dictionary<int, CollectionModel>();
+
+        // I expect to map <CollectionModel>, <CardModel> in the return type <CollectionModel>
+
+        connection.Query<CollectionModel, CardModel, CollectionModel>(
+            storedProcedure,
+            (collection, card) =>
+            {
+                CollectionModel currentCollection;
+
+                // If dictionary doesn't contain the data from the database, it will add
+                // the CollectionId (key) and CollectionModel (value) in the form of the
+                // data from the database.
+
+                if (!lookup.TryGetValue(collection.Id, out currentCollection))
+                {
+                    lookup.Add(collection.Id, currentCollection = collection);
+                }
+
+                currentCollection.FlashCards.Add(card);
+                return currentCollection;
+            },
+            new {Id = collectionId},
+            splitOn: "Id",
+            commandType: CommandType.StoredProcedure).AsQueryable();
+
+        var resultsList = lookup.Values;
+
+        return resultsList.FirstOrDefault();
+    }
 }
