@@ -53,19 +53,28 @@ public class CardsController : ControllerBase
     }
 
     // PUT api/<CardsController>/5
-    //[HttpPut("{id}")]
-    //public async Task<IActionResult> Put(int id, [FromBody] CardModel card)
-    //{
-    //    if(card is null || id != card.CardId)
-    //    {
-           
-    //        return BadRequest();
-    //    }
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Put(int id, [FromBody] CardModel card)
+    {
+        if (card != null)
+        {
+            int affectedRows = await _unitOfWork.Cards.Update("dbo.spCards_Update", new
+            {
+                Id = id,
+                CollectionId = card.CollectionId,
+                Question = card.Question,
+                CorrectAnswer = card.CorrectAnswer,
+                IncorrectAnswerOne = card.IncorrectAnswerOne,
+                IncorrectAnswerTwo = card.IncorrectAnswerTwo,
+                IncorrectAnswerThree = card.IncorrectAnswerThree
+            });
 
-    //    int affectedRows = await _unitOfWork.Cards.Update("dbo.spCard_UpdateCard", card);
+            return (affectedRows == 1) ? Ok(card) : NotFound();
 
-    //    return (affectedRows == 1) ? Ok(card) : NotFound();
-    //}
+        }
+
+        return BadRequest();
+    }
 
     // DELETE api/<CardsController>/5
     [HttpDelete("{id}")]

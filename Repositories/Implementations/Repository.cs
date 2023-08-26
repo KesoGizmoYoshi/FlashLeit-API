@@ -47,9 +47,11 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     //    await _context.Set<TEntity>().AddRangeAsync(entities);
     //    await _context.SaveChangesAsync();
     //}
-    public void Update(string storedProcedure, dynamic parameters)
+    public Task<int> Update(string storedProcedure, dynamic parameters)
     {
-        _sql.SaveData<TEntity>(storedProcedure, parameters);
+        var affectedRows = _sql.SaveData<dynamic>(storedProcedure, parameters);
+
+        return affectedRows;
     }
     public async Task<int> Delete(string storedProcedure, dynamic parameters)
     {
