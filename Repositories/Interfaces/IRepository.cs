@@ -12,7 +12,7 @@ public interface IRepository<TEntity> where TEntity : class
     Task<IEnumerable<TEntity>> GetAllAsync(string storedProcedure, dynamic parameters);
     
     //Task<IEnumerable<TEntity?>> GetAsync(Expression<Func<T, bool>> predicate); -- Delegates?
-    Task<TEntity> AddAsync(string storedProcedure, dynamic parameters);
+    Task<IEnumerable<TEntity>> AddAsync(string storedProcedure, dynamic parameters);
 
     // Add list of objects:
     //Task AddRangeAsync(IEnumerable<TEntity> entities);

@@ -35,11 +35,11 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
 
     //    return await _context.Set<TEntity>().Where(predicate).ToListAsync();
     //}
-    public async Task<TEntity> AddAsync(string storedProcedure, dynamic parameters)
+    public async Task<IEnumerable<TEntity>> AddAsync(string storedProcedure, dynamic parameters)
     {
         var results = await _sql.LoadData<TEntity, dynamic>(storedProcedure, parameters);
 
-        return results.FirstOrDefault();
+        return results; // FirstORDefault();
     }
     //public async Task AddRangeAsync(IEnumerable<TEntity> entities)
     //{

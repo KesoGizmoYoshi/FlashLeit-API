@@ -3,8 +3,6 @@ using FlashLeit_API.Repositories.Interfaces;
 using flashleit_class_library.Models;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace FlashLeit_API.Controllers;
 [Route("api/[controller]")]
 [ApiController]
@@ -19,14 +17,14 @@ public class CardsController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> Get()
     {
-        return Ok(await _unitOfWork.Cards.GetAllAsync("dbo.spAchievments_GetAll", null));
+        return Ok(await _unitOfWork.Cards.GetAllAsync("dbo.spCards_GetAll", null));
     }
 
     // GET api/<CardsController>/5
     [HttpGet("{id}")]
     public async Task<IActionResult> Get(int id)
     {
-        var card = await _unitOfWork.Cards.GetByIdAsync("dbo.spCards_GetById", id);
+        var card = await _unitOfWork.Cards.GetByIdAsync("dbo.spCards_GetById", new {Id = id});
 
         return (card != null) ? Ok(card) : NotFound();
 
@@ -38,8 +36,17 @@ public class CardsController : ControllerBase
     {
         if (card != null)
         {
-            await _unitOfWork.Cards.AddAsync("dbo.spCards_Insert", card);
-            return Ok(card);
+            var dbCard = await _unitOfWork.Cards.AddAsync("dbo.spCards_Insert", new
+            {
+                CollectionId = card.CollectionId,
+                Question = card.Question,
+                CorrectAnswer = card.CorrectAnswer,
+                IncorrectAnswerOne = card.IncorrectAnswerOne,
+                IncorrectAnswerTwo = card.IncorrectAnswerTwo,
+                IncorrectAnswerThree = card.IncorrectAnswerThree
+            }) ;
+            
+            return Ok(dbCard);
         }
 
         else return BadRequest();
@@ -64,17 +71,9 @@ public class CardsController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-        int affectedRows = await _unitOfWork.Cards.Delete("dbo.spCards_DeleteById", id);
+        int affectedRows = await _unitOfWork.Cards.Delete("dbo.spCards_DeleteById", new { Id = id });
 
         return affectedRows > 0 ? Ok("Delete successful") : NotFound("Card not found in the database");
     }
 
-    // NOT IN USE!If affactedrows isn't working then Consider using for deleting in scenarios where cards are allready loaded
-    //public async void Delete([FromBody] CardModel card)
-    //{
-    //    if (card != null)
-    //    {
-    //        _unitOfWork.Cards.Delete("dbo.spCard_DeleteById", card);
-    //    }
-    //}
 }
