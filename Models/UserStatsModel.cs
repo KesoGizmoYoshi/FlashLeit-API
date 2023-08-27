@@ -11,7 +11,7 @@ public class UserStatsModel
 {
     [Key]
     public int Id { get; set; }
-    public List<CounterModel> Counters { get; set; } = new();
-    public List<AchievementModel> Achievements { get; set; } = new();
+    public List<CounterModel>? Counters { get; set; } = new();
+    public List<AchievementModel>? Achievements { get; set; } = new();
     public int UserId { get; set; }
 }

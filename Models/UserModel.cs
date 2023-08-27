@@ -1,5 +1,6 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace flashleit_class_library.Models;
 
@@ -13,9 +14,9 @@ public class UserModel
     public required string AccountName { get; set; }
     public required string UserName { get; set; }
     [MaxLength(50)]
-    public string AvatarUrl { get; set; }
-    public required List<CollectionModel> Collections { get; set; } = new();
-    public required UserStatsModel UserStats { get; set; }
+    public required string AvatarUrl { get; set; }
+    public List<CollectionModel>? Collections { get; set; } = new();
+    public UserStatsModel? UserStats { get; set; } = new();
 
     public UserModel()
     {
