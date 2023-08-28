@@ -1,6 +1,9 @@
-﻿using FlashLeit_API.Repositories.Interfaces;
+﻿using FlashLeit_API.Models.B2CRelatedModels;
+using FlashLeit_API.Repositories.Interfaces;
 using flashleit_class_library.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace FlashLeit_API.Controllers;
 [Route("api/[controller]")]
@@ -30,8 +33,37 @@ public class UsersController : ControllerBase
 
     // POST api/<UsersController>
     [HttpPost]
-    public void Post([FromBody] string value)
+    public async Task<IActionResult> Post([FromBody] RegistrationClaimsModel claims)
     {
+        JsonResult response = new(new SuccessfulValidationModel());
+
+        IEnumerable<UserModel> dbUsers = await _unitOfWork.Users.GetAllAsync("dbo.spUsers_GetAll", new { });
+
+        UserModel? dbUser = dbUsers.FirstOrDefault(u => u.Email == claims.Email);
+
+        if (dbUser is not null)
+        {
+            return Ok(response);
+        }
+
+        dbUser = dbUsers.FirstOrDefault(u => u.AccountName == claims.DisplayName);
+
+        if (dbUser is null)
+        {
+            await _unitOfWork.Users.AddAsync("dbo.spUsers_Insert", new
+            { 
+                Email = claims.Email,
+                AccountName = claims.DisplayName,
+                Username = claims.DisplayName,
+                AvatarUrl = "DefaultAvatarUrl.png"
+            });
+
+            return Ok(response);
+        }
+        
+        response = new(new FailedValidationModel());
+
+        return BadRequest(response);
     }
 
     // PUT api/<UsersController>/5
