@@ -10,7 +10,7 @@ namespace flashleit_class_library.Models;
 public class CardModel
 {
     [Key]
-    public int CardId { get; set; }
+    public int Id { get; set; }
     public int CollectionId { get; set; }
     [MaxLength(150)]
     public required string Question { get; set; }
