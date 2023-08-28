@@ -1,4 +1,5 @@
 ﻿using FlashLeit_API.Repositories.Interfaces;
+using flashleit_class_library.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlashLeit_API.Controllers;
@@ -31,8 +32,20 @@ public class CollectionsController : ControllerBase
 
     // POST api/<CollectionsController>
     [HttpPost]
-    public void Post([FromBody] string value)
+    public async Task<IActionResult> Post([FromBody] CollectionModel collectionModel)
     {
+        if(collectionModel != null)
+        {
+            var dbCollectionModel = await _unitOfWork.Collections.AddAsync("dbo.spCollections_Insert", new
+            {
+                UserId = collectionModel.UserId,
+                Title = collectionModel.Title
+            });
+
+            return Ok(dbCollectionModel);
+        }
+
+        return BadRequest();
     }
 
     // PUT api/<CollectionsController>/5

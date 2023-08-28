@@ -7,15 +7,17 @@ using FlashLeit_API.Repositories.Implementations;
 using FlashLeit_API.Repositories.Interfaces;
 using FlashLeit_API.Services;
 using Microsoft.EntityFrameworkCore;
-
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<AppDbContext>();
 
+
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -23,6 +25,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IConnectionStringService, ConnectionStringService>();
 builder.Services.AddSingleton<ISqlDataAccess, SqlDataAccess>();
 builder.Services.AddSingleton<IUnitOfWork, UnitOfWork>();
+
 
 
 // --- TEST ---

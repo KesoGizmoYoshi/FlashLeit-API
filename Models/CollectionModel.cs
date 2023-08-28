@@ -16,7 +16,6 @@ public class CollectionModel
     [MaxLength(50)]
     public required string Title { get; set; }
     public List<CardModel>? FlashCards { get; set; } = new();
-    [JsonIgnore] // JSON Ignore that prevents it from being serialized and deserialized in the API calls:
     public List<UserModel>? Users { get; set; } = new();
     public int CounterId { get; set; }
 
