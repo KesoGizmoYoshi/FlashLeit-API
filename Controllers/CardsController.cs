@@ -36,7 +36,7 @@ public class CardsController : ControllerBase
     {
         if (card != null)
         {
-            var dbCard = await _unitOfWork.Cards.AddAsync("dbo.spCards_Insert", new
+            var newCard = await _unitOfWork.Cards.AddAsync("dbo.spCards_Insert", new
             {
                 CollectionId = card.CollectionId,
                 Question = card.Question,
@@ -44,9 +44,13 @@ public class CardsController : ControllerBase
                 IncorrectAnswerOne = card.IncorrectAnswerOne,
                 IncorrectAnswerTwo = card.IncorrectAnswerTwo,
                 IncorrectAnswerThree = card.IncorrectAnswerThree
-            }) ;
-            
-            return Ok(dbCard);
+            });
+
+            var cardModel = newCard.FirstOrDefault();
+
+            int cardId = cardModel!.Id;
+
+            return Ok(cardId);
         }
 
         else return BadRequest();

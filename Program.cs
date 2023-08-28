@@ -27,10 +27,6 @@ builder.Services.AddSingleton<ISqlDataAccess, SqlDataAccess>();
 builder.Services.AddSingleton<IUnitOfWork, UnitOfWork>();
 
 
-
-// --- TEST ---
-builder.Services.AddSingleton<IUserData, UserData>();
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

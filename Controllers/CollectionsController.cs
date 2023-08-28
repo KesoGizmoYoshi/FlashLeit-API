@@ -30,22 +30,44 @@ public class CollectionsController : ControllerBase
         return (collection != null) ? Ok(collection) : NotFound();
     }
 
+    //[HttpGet("[action]")]
+    //public async Task<IActionResult> GetByUserId(int id)
+    //{
+    //    var collections = await _
+    //}
+
+
     // POST api/<CollectionsController>
     [HttpPost]
-    public async Task<IActionResult> Post([FromBody] CollectionModel collectionModel)
+    public async Task<IActionResult> Post([FromBody] CollectionModel collection)
     {
-        if(collectionModel != null)
+        if(collection != null)
         {
-            var dbCollectionModel = await _unitOfWork.Collections.AddAsync("dbo.spCollections_Insert", new
+            var newCollection = await _unitOfWork.Collections.AddAsync("dbo.spCollections_Insert", new
             {
-                UserId = collectionModel.UserId,
-                Title = collectionModel.Title
+                UserId = collection.UserId,
+                Title = collection.Title
             });
 
-            return Ok(dbCollectionModel);
+            var collectionModel = newCollection.FirstOrDefault();
+
+            int collectionId = collectionModel!.Id;
+
+            return Ok(collectionId);
         }
 
         return BadRequest();
+    }
+
+    [HttpPost("[action]/{id}")]
+    public async Task<IActionResult> AddCollectionRelation(int id, [FromBody] int userId)
+    {
+        var affectedRows = await _unitOfWork.Collections.Update("dbo.spUserCollection_AddUserCollectionRelation", new 
+        { 
+            UserId = userId,
+            CollectionId = id });
+
+        return affectedRows > 0 ? Ok() : NotFound();
     }
 
     // PUT api/<CollectionsController>/5
@@ -63,7 +85,11 @@ public class CollectionsController : ControllerBase
 
     // DELETE api/<CollectionsController>/5
     [HttpDelete("{id}")]
-    public void Delete(int id)
+    public async Task<IActionResult> Delete(int id, [FromBody] int userId)
     {
+        var affectedRows = await _unitOfWork.Collections.Delete("dbo.spCollections_DeleteById", new { Id = id, UserId = userId});
+
+
+        return affectedRows > 0 ? Ok() : NotFound();
     }
 }

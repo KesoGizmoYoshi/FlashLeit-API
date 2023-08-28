@@ -51,7 +51,6 @@ public class UsersController : ControllerBase
         }
 
         return BadRequest();
-
     }
 
     // DELETE api/<UsersController>/5

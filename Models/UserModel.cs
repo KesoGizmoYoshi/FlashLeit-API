@@ -9,12 +9,12 @@ public class UserModel
     [Key]
     public int Id { get; set; }
     [MaxLength(50)]
-    public required string Email { get; set; }
+    public string Email { get; set; }
     [MaxLength(50)]
-    public required string AccountName { get; set; }
-    public required string UserName { get; set; }
+    public string AccountName { get; set; }
+    public string UserName { get; set; }
     [MaxLength(50)]
-    public required string AvatarUrl { get; set; }
+    public string AvatarUrl { get; set; }
     public List<CollectionModel>? Collections { get; set; } = new();
     public UserStatsModel? UserStats { get; set; } = new();
 

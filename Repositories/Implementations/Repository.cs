@@ -39,7 +39,7 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
         var results = await _sql.LoadData<TEntity, dynamic>(storedProcedure, parameters);
 
-        return results; // FirstORDefault();
+        return results;
     }
     //public async Task AddRangeAsync(IEnumerable<TEntity> entities)
     //{
