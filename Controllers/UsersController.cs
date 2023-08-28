@@ -35,7 +35,9 @@ public class UsersController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] RegistrationClaimsModel claims)
     {
-        JsonResult response = new(new SuccessfulValidationModel());
+        SuccessfulValidationModel successfulValidation = new();
+
+        JsonResult response = new(new { successfulValidation } );
 
         IEnumerable<UserModel> dbUsers = await _unitOfWork.Users.GetAllAsync("dbo.spUsers_GetAll", new { });
 
@@ -60,8 +62,10 @@ public class UsersController : ControllerBase
 
             return Ok(response);
         }
-        
-        response = new(new FailedValidationModel());
+
+        FailedValidationModel failedValidation = new();
+
+        response = new(new { failedValidation } );
 
         return BadRequest(response);
     }
