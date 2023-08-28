@@ -50,8 +50,15 @@ public class CollectionsController : ControllerBase
 
     // PUT api/<CollectionsController>/5
     [HttpPut("{id}")]
-    public void Put(int id, [FromBody] string value)
+    public async Task<IActionResult> Put(int id, [FromBody] string newTitle)
     {
+        var affectedRows = await _unitOfWork.Collections.Update("dbo.spCollections_Update", new 
+        { 
+            Id = id,
+            Title = newTitle
+        });
+
+        return affectedRows > 0 ? Ok() : NotFound();
     }
 
     // DELETE api/<CollectionsController>/5
