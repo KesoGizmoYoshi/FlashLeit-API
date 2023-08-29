@@ -22,6 +22,8 @@ public class CardModel
     public string? IncorrectAnswerTwo { get; set; }
     [MaxLength(150)]
     public string? IncorrectAnswerThree { get; set; }
+    public int LeitnerBoxIndex { get; set; } = 1;
+    public DateTime LastReviewedDate { get; set; } = DateTime.Now;
 
     public CardModel()
     {

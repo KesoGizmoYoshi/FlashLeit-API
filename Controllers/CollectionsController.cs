@@ -87,7 +87,7 @@ public class CollectionsController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id, [FromBody] int userId)
     {
-        var affectedRows = await _unitOfWork.Collections.Delete("dbo.spCollections_DeleteById", new { Id = id, UserId = userId});
+        var affectedRows = await _unitOfWork.Collections.Delete("dbo.spCollections_DeleteById", new { CollectionId = id, UserId = userId});
 
 
         return affectedRows > 0 ? Ok() : NotFound();
