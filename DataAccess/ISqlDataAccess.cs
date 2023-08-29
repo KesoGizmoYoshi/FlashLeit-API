@@ -8,4 +8,6 @@ public interface ISqlDataAccess
     Task<int> SaveData<T>(string storedProcedure, T parameters);
 
     Task<CollectionModel> GetCollectionWithCardsAsync(string storedProcedure, int collectionId);
+
+    Task<List<CollectionModel>> GetCollectionsByUserId(string storedProcedure, int userId);
 }

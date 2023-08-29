@@ -46,9 +46,7 @@ public class CardsController : ControllerBase
                 IncorrectAnswerThree = card.IncorrectAnswerThree
             });
 
-            var cardModel = newCard.FirstOrDefault();
-
-            int cardId = cardModel!.Id;
+            var cardId = newCard.FirstOrDefault().Id;
 
             return Ok(cardId);
         }

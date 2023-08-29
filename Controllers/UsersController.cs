@@ -60,9 +60,9 @@ public class UsersController : ControllerBase
                 AvatarUrl = "DefaultAvatarUrl.png"
             });
 
-            var userModelId = newUser.FirstOrDefault().Id;
+            var userId = newUser.FirstOrDefault().Id;
 
-            successfulValidation.Extension_UserId = userModelId.ToString();
+            successfulValidation.Extension_UserId = userId.ToString();
 
             response = new(new { successfulValidation });
 

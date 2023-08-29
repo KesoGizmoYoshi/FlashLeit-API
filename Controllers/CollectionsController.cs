@@ -30,11 +30,13 @@ public class CollectionsController : ControllerBase
         return (collection != null) ? Ok(collection) : NotFound();
     }
 
-    //[HttpGet("[action]")]
-    //public async Task<IActionResult> GetCollectionsByUserId(int id)
-    //{
-    //    var collections = await _unitOfWork.Collections.Get
-    //}
+    [HttpGet("[action]")]
+    public async Task<IActionResult> GetCollectionsByUserId(int id)
+    {
+        var collections = await _unitOfWork.Collections.GetCollectionsByUserIdAsync("dbo.spUserCollection_GetUserCollections", id);
+
+        return Ok(collections);
+    }
 
 
     // POST api/<CollectionsController>

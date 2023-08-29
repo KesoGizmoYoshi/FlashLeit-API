@@ -22,10 +22,10 @@ public class CollectionRepository : Repository<CollectionModel>, ICollectionRepo
         return results;
     }
 
-    //public async Task<IEnumerable<CollectionModel>> GetCollectionsByUserIdAsync(string storedProcedure, int userId)
-    //{
-    //    var results = await _sql.GetCollectionsByUserIdAsync(storedProcedure, userId);
+    public async Task<List<CollectionModel>> GetCollectionsByUserIdAsync(string storedProcedure, int userId)
+    {
+        var results = await _sql.GetCollectionsByUserId(storedProcedure, userId);
 
-    //    return results;
-    //}
+        return results;
+    }
 }

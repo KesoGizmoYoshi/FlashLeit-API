@@ -100,4 +100,35 @@ public class SqlDataAccess : ISqlDataAccess
 
         return resultsList.FirstOrDefault();
     }
+
+    public async Task<List<CollectionModel>> GetCollectionsByUserId(string storedProcedure, int userId)
+    {
+        string connectionString = _connection.GetConnectionStringFromAzureKeyVault();
+
+        using IDbConnection connection = new SqlConnection(connectionString);
+
+        var lookup = new Dictionary<int, UserModel>();
+
+        connection.Query<UserModel, CollectionModel, UserModel>(
+            storedProcedure,
+            (user, collection) =>
+            {
+                UserModel currentUser;
+
+                if (!lookup.TryGetValue(user.Id, out currentUser))
+                {
+                    lookup.Add(user.Id, currentUser = user);
+                }
+
+                currentUser.Collections.Add(collection);
+                return currentUser;
+            },
+            new { UserId = userId },
+            splitOn: "CollectionId",
+            commandType: CommandType.StoredProcedure).AsQueryable();
+
+        UserModel results = lookup.Values.FirstOrDefault();
+
+        return results.Collections;
+    }
 }
