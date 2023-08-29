@@ -56,7 +56,7 @@ public class UsersController : ControllerBase
 
             int userId = newUser.FirstOrDefault()!.Id;
 
-            return new OkObjectResult(new { version = "1.0.0", action = "Continue", userId });
+            return new OkObjectResult(new { version = "1.0.0", action = "Continue", extension_UserID = userId });
         }
 
         return new BadRequestObjectResult(new { version = "1.0.0", status = 400, action = "ValidationError", userMessage = "Username is already in use!" });
