@@ -53,7 +53,7 @@ public class UsersController : ControllerBase
         if (dbUser is null)
         {
             var newUser = await _unitOfWork.Users.AddAsync("dbo.spUsers_Insert", new
-            {
+            { 
                 Email = claims.Email,
                 AccountName = claims.DisplayName,
                 Username = claims.DisplayName,

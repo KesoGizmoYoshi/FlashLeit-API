@@ -1,8 +1,9 @@
-using Azure.Core;
-using Azure.Identity;
-using Azure.Security.KeyVault.Secrets;
 using FlashLeit_API.Data.Database;
-using Microsoft.EntityFrameworkCore;
+using FlashLeit_API.DataAccess;
+using FlashLeit_API.Repositories.Implementations;
+using FlashLeit_API.Repositories.Interfaces;
+using FlashLeit_API.Services;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,9 +11,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>();
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Dapper -- Stored Procedures
+builder.Services.AddSingleton<IConnectionStringService, ConnectionStringService>();
+builder.Services.AddSingleton<ISqlDataAccess, SqlDataAccess>();
+builder.Services.AddSingleton<IUnitOfWork, UnitOfWork>();
+
+builder.Services.AddCors(options => { options.AddPolicy("CorsPolicy", policy => { policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod(); }); });
 
 var app = builder.Build();
 
@@ -24,6 +32,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("CorsPolicy");
 
 app.UseAuthorization();
 

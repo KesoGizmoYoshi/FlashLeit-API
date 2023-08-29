@@ -11,8 +11,5 @@ public interface IUnitOfWork : IDisposable
     public IUserStatsRepository UserStats { get; set; }
     public IAchievementRepository Achievements { get; set; }
 
-
-    Task CompleteAsync();
-
-    void Dispose();
+    public void Dispose();
 }
