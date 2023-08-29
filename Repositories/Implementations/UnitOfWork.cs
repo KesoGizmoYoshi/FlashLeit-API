@@ -1,5 +1,4 @@
-﻿using FlashLeit_API.Data.Database;
-using FlashLeit_API.DataAccess;
+﻿using FlashLeit_API.DataAccess;
 using FlashLeit_API.Repositories.Interfaces;
 
 namespace FlashLeit_API.Repositories.Implementations;
