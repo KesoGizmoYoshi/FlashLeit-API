@@ -33,17 +33,13 @@ public class UsersController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] RegistrationClaimsModel claims)
     {
-        SuccessfulValidationModel successfulValidation = new();
-
-        JsonResult response = new(new { successfulValidation });
-
         IEnumerable<UserModel> dbUsers = await _unitOfWork.Users.GetAllAsync("dbo.spUsers_GetAll", new { });
 
         UserModel? dbUser = dbUsers.FirstOrDefault(u => u.Email == claims.Email);
 
         if (dbUser is not null)
         {
-            return Ok(response);
+            return new OkObjectResult(new { version = "1.0.0", action = "Continue" });
         }
 
         dbUser = dbUsers.FirstOrDefault(u => u.AccountName == claims.DisplayName);
@@ -58,20 +54,12 @@ public class UsersController : ControllerBase
                 AvatarUrl = "DefaultAvatarUrl.png"
             });
 
-            var userId = newUser.FirstOrDefault().Id;
+            int userId = newUser.FirstOrDefault()!.Id;
 
-            successfulValidation.Extension_UserId = userId.ToString();
-
-            response = new(new { successfulValidation });
-
-            return Ok(response);
+            return new OkObjectResult(new { version = "1.0.0", action = "Continue", userId });
         }
 
-        FailedValidationModel failedValidation = new();
-
-        response = new(new { failedValidation });
-
-        return BadRequest(response);
+        return new BadRequestObjectResult(new { version = "1.0.0", status = 400, action = "ValidationError", userMessage = "Username is already in use!" });
     }
 
     // PUT api/<UsersController>/5
