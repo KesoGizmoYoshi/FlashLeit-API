@@ -4,5 +4,5 @@ public class SuccessfulValidationModel
 {
     public string? Version { get; set; } = "1.0.0";
     public string? Action { get; set; } = "Continue";
-    public int? Extension_UserId { get; set; } = null;
+    public string? Extension_UserId { get; set; } = null;
 }
