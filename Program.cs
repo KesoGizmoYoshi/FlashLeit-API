@@ -1,4 +1,3 @@
-using FlashLeit_API.Data.Database;
 using FlashLeit_API.DataAccess;
 using FlashLeit_API.Repositories.Implementations;
 using FlashLeit_API.Repositories.Interfaces;
@@ -8,8 +7,6 @@ using FlashLeit_API.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddDbContext<AppDbContext>();
-
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();

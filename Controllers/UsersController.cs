@@ -2,8 +2,6 @@
 using FlashLeit_API.Repositories.Interfaces;
 using flashleit_class_library.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
 
 namespace FlashLeit_API.Controllers;
 [Route("api/[controller]")]

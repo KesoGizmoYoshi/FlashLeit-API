@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
-using Dapper;
+﻿using Dapper;
 using System.Data;
 using System.Data.SqlClient;
 using FlashLeit_API.Services;

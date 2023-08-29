@@ -4,5 +4,5 @@ public class SuccessfulValidationModel
 {
     public string? Version { get; set; } = "1.0.0";
     public string? Action { get; set; } = "Continue";
-    public string? PostalCode { get; set; } = string.Empty;
+    public string? Extension_UserId { get; set; } = string.Empty;
 }
