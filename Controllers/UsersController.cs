@@ -62,7 +62,7 @@ public class UsersController : ControllerBase
 
             var userModelId = newUser.FirstOrDefault().Id;
 
-            successfulValidation.Extension_UserId = userModelId.ToString();
+            successfulValidation.Extension_UserId = userModelId;
 
             response = new(new { successfulValidation });
 
