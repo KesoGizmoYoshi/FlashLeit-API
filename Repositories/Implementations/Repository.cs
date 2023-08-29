@@ -1,54 +1,72 @@
 ﻿using FlashLeit_API.Data.Database;
+using FlashLeit_API.DataAccess;
 using FlashLeit_API.Repositories.Interfaces;
+using flashleit_class_library.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Linq.Expressions;
 
 namespace FlashLeit_API.Repositories.Implementations;
 
 public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
 {
-    
-    // Generic implementation of the interface: 
-    
-    protected readonly AppDbContext _context;
 
-    public Repository(AppDbContext context)
+    protected readonly ISqlDataAccess _sql;
+
+    public Repository(ISqlDataAccess sql)
     {
-        _context = context;
+        _sql = sql;
     }
-    public async Task<TEntity?> GetByIdAsync(int id)
+    public async Task<IEnumerable<TEntity>> GetByIdAsync(string storedProcedure, dynamic parameters)
     {
-        return await _context.Set<TEntity>().FindAsync(id);
+        var results = await _sql.LoadData<TEntity, dynamic>(storedProcedure, parameters);
+
+        return results; 
     }
-    public async Task<IEnumerable<TEntity>> GetAllAsync()
+    public async Task<IEnumerable<TEntity>> GetAllAsync(string storedProcedure, dynamic parameters)
     {
-        return await _context.Set<TEntity>().ToListAsync();
+        return await _sql.LoadData<TEntity, dynamic>(storedProcedure, parameters);
     }
-    public async Task<IEnumerable<TEntity>> GetAsync(Expression<Func<TEntity, bool>> predicate)
+
+    //public async Task<IEnumerable<TEntity>> GetCollectionsByUserIdAsync(string storedProcedure, dynamic parameters)
+    //{
+
+    //}
+
+    //public async Task<IEnumerable<TEntity>> GetAsync(string storedProcedure, Expression<Func<TEntity, bool>> predicate)
+    //{
+
+    //    return await _sql.LoadData
+
+    //    return await _context.Set<TEntity>().Where(predicate).ToListAsync();
+    //}
+    public async Task<IEnumerable<TEntity>> AddAsync(string storedProcedure, dynamic parameters)
     {
-        return await _context.Set<TEntity>().Where(predicate).ToListAsync();
+        var results = await _sql.LoadData<TEntity, dynamic>(storedProcedure, parameters);
+
+        return results;
     }
-    public async Task AddAsync(TEntity entity)
+    //public async Task AddRangeAsync(IEnumerable<TEntity> entities)
+    //{
+
+    //    await _context.Set<TEntity>().AddRangeAsync(entities);
+    //    await _context.SaveChangesAsync();
+    //}
+    public Task<int> Update(string storedProcedure, dynamic parameters)
     {
-        _context.Set<TEntity>().Add(entity);
-        await _context.SaveChangesAsync();
+        var affectedRows = _sql.SaveData<dynamic>(storedProcedure, parameters);
+
+        return affectedRows;
     }
-    public async Task AddRangeAsync(IEnumerable<TEntity> entities)
+    public async Task<int> Delete(string storedProcedure, dynamic parameters)
     {
-        await _context.Set<TEntity>().AddRangeAsync(entities);
-        await _context.SaveChangesAsync();
+        var affectedRows = await _sql.SaveData<dynamic>(storedProcedure, parameters);
+
+        return affectedRows;
     }
-    public void Update(TEntity entity)
-    {
-        _context.Update<TEntity>(entity);
-    }
-    public void Remove(TEntity entity)
-    {
-        _context.Set<TEntity>().Remove(entity);
-    }
-    public async Task RemoveRangeAsync(IEnumerable<TEntity> entities)
-    {
-        _context.Set<TEntity>().RemoveRange(entities);
-        await _context.SaveChangesAsync();
-    }
+    //public async Task RemoveRangeAsync(IEnumerable<TEntity> entities)
+    //{
+    //    _context.Set<TEntity>().RemoveRange(entities);
+    //    await _context.SaveChangesAsync();
+    //}
 }
