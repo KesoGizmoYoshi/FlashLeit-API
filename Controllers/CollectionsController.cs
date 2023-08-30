@@ -1,4 +1,5 @@
 ﻿using FlashLeit_API.Repositories.Interfaces;
+using FlashLeit_API.Services;
 using flashleit_class_library.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Cryptography.X509Certificates;
@@ -9,10 +10,13 @@ namespace FlashLeit_API.Controllers;
 public class CollectionsController : ControllerBase
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IPublicKeyService _keyService;
 
-    public CollectionsController(IUnitOfWork unitOfWork)
+
+    public CollectionsController(IUnitOfWork unitOfWork, IPublicKeyService keyService)
     {
         _unitOfWork = unitOfWork;
+        _keyService = keyService;
     }
 
     // GET: api/<CollectionsController>
@@ -93,7 +97,7 @@ public class CollectionsController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id, [FromBody] int userId)
     {
-        var affectedRows = await _unitOfWork.Collections.Delete("dbo.spCollections_DeleteById", new { CollectionId = id, UserId = userId});
+        var affectedRows = await _unitOfWork.Collections.Delete("dbo.spCollections_DeleteByPublicKey", new { PublicKey = _keyService.ConstructPublicKey(userId, id) });
 
 
         return affectedRows > 0 ? Ok() : NotFound();
