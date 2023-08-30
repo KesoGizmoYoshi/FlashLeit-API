@@ -62,7 +62,7 @@ public class SqlDataAccess : ISqlDataAccess
         return affectedRows;
     }
 
-    public async Task<CollectionModel> GetCollectionWithCardsAsync(string storedProcedure, int collectionId)
+    public async Task<CollectionModel> GetCollectionWithCardsAsync(string storedProcedure, int collectionId, int userId)
     {
         string connectionString = _connection.GetConnectionStringFromAzureKeyVault();
 
@@ -91,7 +91,7 @@ public class SqlDataAccess : ISqlDataAccess
                 currentCollection.FlashCards.Add(card);
                 return currentCollection;
             },
-            new {Id = collectionId},
+            new {Id = collectionId, UserId = userId},
             splitOn: "Id",
             commandType: CommandType.StoredProcedure).AsQueryable();
 

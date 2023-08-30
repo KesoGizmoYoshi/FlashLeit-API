@@ -14,9 +14,9 @@ public class CollectionRepository : Repository<CollectionModel>, ICollectionRepo
         _sql = sql;
     }
 
-    public async Task<CollectionModel> GetCollectionWithCardsAsync(string storedProcedure, int collectionId)
+    public async Task<CollectionModel> GetCollectionWithCardsAsync(string storedProcedure, int collectionId, int userId)
     {
-        var results = await _sql.GetCollectionWithCardsAsync(storedProcedure, collectionId);
+        var results = await _sql.GetCollectionWithCardsAsync(storedProcedure, collectionId, userId);
 
         return results;
     }

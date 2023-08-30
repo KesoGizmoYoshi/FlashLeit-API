@@ -23,18 +23,18 @@ public class CollectionsController : ControllerBase
     }
 
     // GET api/<CollectionsController>/5
-    [HttpGet("{id}")]
-    public async Task<IActionResult> Get(int id)
+    [HttpGet("{collectionId}/{userId}")]
+    public async Task<IActionResult> Get(int collectionId, int userId)
     {
-        var collection = await _unitOfWork.Collections.GetCollectionWithCardsAsync("dbo.spCollections_GetById", id);
+        var collection = await _unitOfWork.Collections.GetCollectionWithCardsAsync("dbo.spCollections_GetById", collectionId, userId);
 
         return (collection != null) ? Ok(collection) : NotFound();
     }
 
-    [HttpGet("[action]")]
+    [HttpGet("[action]/{id}")]
     public async Task<IActionResult> GetCollectionsByUserId(int id)
     {
-        var collections = await _unitOfWork.Collections.GetCollectionsByUserIdAsync("dbo.spUserCollection_GetUserCollections", id);
+        var collections = await _unitOfWork.Collections.GetByIdAsync("dbo.spCollections_GetUserCollections", new {Id = id});
 
         return Ok(collections);
     }

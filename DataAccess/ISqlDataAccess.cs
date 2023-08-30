@@ -7,7 +7,7 @@ public interface ISqlDataAccess
     Task<List<T>> LoadData<T, U>(string storedProcedure, U parameters);
     Task<int> SaveData<T>(string storedProcedure, T parameters);
 
-    Task<CollectionModel> GetCollectionWithCardsAsync(string storedProcedure, int collectionId);
+    Task<CollectionModel> GetCollectionWithCardsAsync(string storedProcedure, int collectionId, int userId);
 
     Task<List<CollectionModel>> GetCollectionsByUserId(string storedProcedure, int userId);
 }
