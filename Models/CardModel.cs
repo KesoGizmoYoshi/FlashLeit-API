@@ -15,14 +15,9 @@ public class CardModel
     [MaxLength(150)]
     public required string Question { get; set; }
     [MaxLength(250)]
-    public required string CorrectAnswer { get; set; }
+    public required string Answer { get; set; }
     [MaxLength(150)]
-    public string? IncorrectAnswerOne { get; set; }
-    [MaxLength(150)]
-    public string? IncorrectAnswerTwo { get; set; }
-    [MaxLength(150)]
-    public string? IncorrectAnswerThree { get; set; }
-    public int LeitnerBoxIndex { get; set; } = 1;
+    public int LeitnerIndex { get; set; } = 1;
     public DateTime LastReviewedDate { get; set; } = DateTime.Now;
 
     public CardModel()
