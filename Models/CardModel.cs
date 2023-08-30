@@ -12,6 +12,7 @@ public class CardModel
     [Key]
     public int Id { get; set; }
     public int CollectionId { get; set; }
+    public int UserId { get; set; }
     [MaxLength(150)]
     public required string Question { get; set; }
     [MaxLength(250)]

@@ -1,5 +1,6 @@
 ﻿using FlashLeit_API.Repositories.Implementations;
 using FlashLeit_API.Repositories.Interfaces;
+using FlashLeit_API.Services;
 using flashleit_class_library.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,9 +10,11 @@ namespace FlashLeit_API.Controllers;
 public class CardsController : ControllerBase
 {
     private readonly IUnitOfWork _unitOfWork;
-    public CardsController(IUnitOfWork unitOfWork)
+    private readonly IPublicKeyService _keyService;
+    public CardsController(IUnitOfWork unitOfWork, IPublicKeyService keyService)
     {
         _unitOfWork = unitOfWork;
+        _keyService = keyService;
     }
     // GET: api/<CardsController>
     [HttpGet]
@@ -39,11 +42,11 @@ public class CardsController : ControllerBase
             var newCard = await _unitOfWork.Cards.AddAsync("dbo.spCards_Insert", new
             {
                 CollectionId = card.CollectionId,
+                UserId = card.UserId,
+                CollectionPublicKey = _keyService.ConstructPublicKey(card.UserId, card.CollectionId),
                 Question = card.Question,
-                CorrectAnswer = card.CorrectAnswer,
-                IncorrectAnswerOne = card.IncorrectAnswerOne,
-                IncorrectAnswerTwo = card.IncorrectAnswerTwo,
-                IncorrectAnswerThree = card.IncorrectAnswerThree
+                Answer = card.Answer,
+                
             });
 
             var cardId = newCard.FirstOrDefault().Id;
@@ -65,10 +68,7 @@ public class CardsController : ControllerBase
                 Id = id,
                 CollectionId = card.CollectionId,
                 Question = card.Question,
-                CorrectAnswer = card.CorrectAnswer,
-                IncorrectAnswerOne = card.IncorrectAnswerOne,
-                IncorrectAnswerTwo = card.IncorrectAnswerTwo,
-                IncorrectAnswerThree = card.IncorrectAnswerThree
+                Answer = card.Answer
             });
 
             return (affectedRows == 1) ? Ok(card) : NotFound();

@@ -1,6 +1,7 @@
 ﻿using FlashLeit_API.Repositories.Interfaces;
 using flashleit_class_library.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Cryptography.X509Certificates;
 
 namespace FlashLeit_API.Controllers;
 [Route("api/[controller]")]
@@ -48,7 +49,8 @@ public class CollectionsController : ControllerBase
             var newCollection = await _unitOfWork.Collections.AddAsync("dbo.spCollections_Insert", new
             {
                 UserId = collection.UserId,
-                Title = collection.Title
+                Title = collection.Title,
+                IsPublic = collection.IsPublic
             });
 
             var collectionId = newCollection.FirstOrDefault().Id;
@@ -60,14 +62,18 @@ public class CollectionsController : ControllerBase
     }
 
     [HttpPost("[action]/{id}")]
-    public async Task<IActionResult> AddCollectionRelation(int id, [FromBody] int userId)
+    public async Task<IActionResult> CloneCollection(int id, [FromBody] CollectionModel model)
     {
-        var affectedRows = await _unitOfWork.Collections.Update("dbo.spUserCollection_AddUserCollectionRelation", new 
+        var results = await _unitOfWork.Collections.AddAsync("dbo.spCollections_Clone", new 
         { 
-            UserId = userId,
-            CollectionId = id });
+            PublicKey = model.PublicKey,
+            AuthorId = id,
+            UserId = model.UserId,
+            Title = model.Title
+        });
 
-        return affectedRows > 0 ? Ok() : NotFound();
+
+        return results != null ? Ok() : NotFound();
     }
 
     // PUT api/<CollectionsController>/5

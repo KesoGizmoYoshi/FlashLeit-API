@@ -12,7 +12,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Dapper -- Stored Procedures
+builder.Services.AddSingleton<IPublicKeyService, PublicKeyService>();
 builder.Services.AddSingleton<IConnectionStringService, ConnectionStringService>();
 builder.Services.AddSingleton<ISqlDataAccess, SqlDataAccess>();
 builder.Services.AddSingleton<IUnitOfWork, UnitOfWork>();

@@ -25,11 +25,7 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
         return await _sql.LoadData<TEntity, dynamic>(storedProcedure, parameters);
     }
 
-    //public async Task<IEnumerable<TEntity>> GetCollectionsByUserIdAsync(string storedProcedure, dynamic parameters)
-    //{
-
-    //}
-
+ 
     //public async Task<IEnumerable<TEntity>> GetAsync(string storedProcedure, Expression<Func<TEntity, bool>> predicate)
     //{
 

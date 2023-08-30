@@ -13,11 +13,13 @@ public class CollectionModel
     [Key]
     public int Id { get; set; }
     public int UserId { get; set; }
+    public int PublicKey { get; set; }
+
     [MaxLength(50)]
     public required string Title { get; set; }
     public List<CardModel>? FlashCards { get; set; } = new();
-    public List<UserModel>? Users { get; set; } = new();
     public int CounterId { get; set; }
+    public bool IsPublic { get; set; }
 
     public CollectionModel()
     {
