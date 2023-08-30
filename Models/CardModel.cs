@@ -13,11 +13,10 @@ public class CardModel
     public int Id { get; set; }
     public int CollectionId { get; set; }
     public int UserId { get; set; }
-    [MaxLength(150)]
+    [MaxLength(250)]
     public required string Question { get; set; }
     [MaxLength(250)]
     public required string Answer { get; set; }
-    [MaxLength(150)]
     public int LeitnerIndex { get; set; } = 1;
     public DateTime LastReviewedDate { get; set; } = DateTime.Now;
 
