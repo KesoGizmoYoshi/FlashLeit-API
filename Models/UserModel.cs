@@ -16,8 +16,7 @@ public class UserModel
     [MaxLength(50)]
     public string AvatarUrl { get; set; }
     public List<CollectionModel>? Collections { get; set; } = new();
-    public UserStatsModel? UserStats { get; set; } = new();
-
+    public List<AchievementModel> Achievements { get; set; } = new();
     public UserModel()
     {
         

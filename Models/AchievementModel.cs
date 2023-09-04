@@ -12,6 +12,6 @@ public class AchievementModel
     public required int Id { get; set; }
     [MaxLength (150)]
     public required string Title { get; set; }
-    public bool IsAchieved { get; set; } = false;
-    public int UserStatsId { get; set; }
+    public string Description { get; set; }
+    public int UserId { get; set; }
 }

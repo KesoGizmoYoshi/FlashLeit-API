@@ -18,7 +18,9 @@ public class CollectionModel
     [MaxLength(50)]
     public required string Title { get; set; }
     public List<CardModel>? FlashCards { get; set; } = new();
-    public int CounterId { get; set; }
+    public int AmountOfCorrectAnswers { get; set; }
+    public int AmountOfInCorrectAnswers { get; set; }
+    public int AmountOfCompletedRuns { get; set; }
     public bool IsPublic { get; set; }
 
     public CollectionModel()

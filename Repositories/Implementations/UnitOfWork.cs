@@ -10,8 +10,6 @@ public class UnitOfWork : IUnitOfWork
     public ICardRepository Cards { get; set; }
     public IUserRepository Users { get; set; }
     public ICollectionRepository Collections { get; set; }
-    public ICounterRepository Counters { get; set; }
-    public IUserStatsRepository UserStats { get; set; }
     public IAchievementRepository Achievements { get; set; }
 
     public UnitOfWork(ISqlDataAccess sql)
@@ -20,8 +18,6 @@ public class UnitOfWork : IUnitOfWork
         Cards = new CardRepository(_sql);
         Users = new UserRepository(_sql);
         Collections = new CollectionRepository(_sql);
-        Counters = new CounterRepository(_sql);
-        UserStats = new UserStatsRepository(_sql);
         Achievements = new AchievementRepository(_sql);
     }
 

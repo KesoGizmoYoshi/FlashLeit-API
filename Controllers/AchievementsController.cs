@@ -27,9 +27,9 @@ public class AchievementsController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> Get(int id)
     {
-        IEnumerable<AchievementModel> achievement = await _unitOfWork.Achievements.GetByIdAsync("dbo.spAchievments_GetById", id);
+        IEnumerable<AchievementModel> achievements = await _unitOfWork.Achievements.GetByIdAsync("dbo.spAchievements_GetAchievementsByUserId", new { Id = id });
 
-        return (achievement is null) ? NotFound() : Ok(achievement);
+        return (achievements is null) ? NotFound() : Ok(achievements);
 
     }
 

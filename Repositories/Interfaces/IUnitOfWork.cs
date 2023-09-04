@@ -7,8 +7,6 @@ public interface IUnitOfWork : IDisposable
     public ICardRepository Cards { get; set; }
     public IUserRepository Users { get; set; }
     public ICollectionRepository Collections { get; set; }
-    public ICounterRepository Counters { get; set; }
-    public IUserStatsRepository UserStats { get; set; }
     public IAchievementRepository Achievements { get; set; }
 
     public void Dispose();
