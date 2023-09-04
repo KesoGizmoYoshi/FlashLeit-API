@@ -83,4 +83,13 @@ public class CardsController : ControllerBase
         return affectedRows > 0 ? Ok("Delete successful") : NotFound("Card not found in the database");
     }
 
+    [HttpDelete("[action]")]
+    public async Task<IActionResult> DeleteByPublicKey([FromBody] CardModel cardModel)
+    {
+        int affectedRows = await _unitOfWork.Cards.Delete("dbo.spCards_DeleteCardByPublicKey",
+            new { PublicKey = _keyService.ConstructPublicKey(cardModel.UserId, cardModel.Id) });
+
+        return affectedRows > 0 ? Ok("Delete successful") : NotFound("Card not found in the database");
+    }
+
 }
