@@ -2,5 +2,5 @@
 
 public interface IPublicKeyService
 {
-    int ConstructPublicKey(int userId, int collectionId);
+    int ConstructPublicKey(int userId, int itemId);
 }

@@ -45,8 +45,7 @@ public class CardsController : ControllerBase
                 UserId = card.UserId,
                 CollectionPublicKey = _keyService.ConstructPublicKey(card.UserId, card.CollectionId),
                 Question = card.Question,
-                Answer = card.Answer,
-                
+                Answer = card.Answer,     
             });
 
             return Ok();
@@ -63,13 +62,12 @@ public class CardsController : ControllerBase
         {
             int affectedRows = await _unitOfWork.Cards.Update("dbo.spCards_Update", new
             {
-                Id = id,
-                CollectionId = card.CollectionId,
+                PublicKey = _keyService.ConstructPublicKey(id, card.Id),
                 Question = card.Question,
                 Answer = card.Answer
-            });
+            }) ;
 
-            return (affectedRows == 1) ? Ok(card) : NotFound();
+            return (affectedRows == 1) ? Ok() : NotFound();
 
         }
 

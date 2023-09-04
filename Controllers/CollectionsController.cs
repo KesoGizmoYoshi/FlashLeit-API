@@ -66,14 +66,19 @@ public class CollectionsController : ControllerBase
     }
 
     [HttpPost("[action]/{id}")]
-    public async Task<IActionResult> CloneCollection(int id, [FromBody] CollectionModel model)
+    public async Task<IActionResult> CloneCollection(int id, [FromBody] CollectionModel collection)
     {
+        // (1). User clicks on "Clone collection" in the UI.
+        // (2). A CollectionModel is created and sent to the API int the form of JSON.
+        // (3). This CollectionModel contains the PublicKey, the Title and the original authors UserId,
+        // (4). The id in the path parameter is the UserId of the user who wants to add the Collections to it's table of Collections.
+
         var results = await _unitOfWork.Collections.AddAsync("dbo.spCollections_Clone", new 
-        { 
-            PublicKey = model.PublicKey,
-            AuthorId = id,
-            UserId = model.UserId,
-            Title = model.Title
+        {
+            AuthorId = collection.UserId,
+            PublicKey = collection.PublicKey,
+            UserId = id,
+            Title = collection.Title
         });
 
 
@@ -82,13 +87,13 @@ public class CollectionsController : ControllerBase
 
     // PUT api/<CollectionsController>/5
     [HttpPut("{id}")]
-    public async Task<IActionResult> Put(int id, [FromBody] string newTitle)
+    public async Task<IActionResult> Put(int id, [FromBody] CollectionModel collection)
     {
-        var affectedRows = await _unitOfWork.Collections.Update("dbo.spCollections_Update", new 
-        { 
-            Id = id,
-            Title = newTitle
-        });
+        var affectedRows = await _unitOfWork.Collections.Update("dbo.spCollections_Update", new
+        {
+            PublicKey = _keyService.ConstructPublicKey(id, collection.Id),
+            Title = collection.Title
+        }) ;
 
         return affectedRows > 0 ? Ok() : NotFound();
     }

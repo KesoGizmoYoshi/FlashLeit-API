@@ -8,9 +8,9 @@ public class PublicKeyService : IPublicKeyService
     }
 
 
-    public int ConstructPublicKey(int userId, int collectionId)
+    public int ConstructPublicKey(int userId, int itemId)
     {
-        string concatenatedNumberString = $"{userId}{collectionId}";
+        string concatenatedNumberString = $"{userId}{itemId}";
 
         int result = int.Parse(concatenatedNumberString);
 
