@@ -98,6 +98,19 @@ public class CollectionsController : ControllerBase
         return affectedRows > 0 ? Ok() : NotFound();
     }
 
+    [HttpPut("[action]/{id}/{category}")]
+    public async Task<IActionResult> UpdateCounter(int id, string category)
+    {
+        // Possible categories:
+        // 1. IncrementCorrectAnswers
+        // 2. IncrementInCorrectAnswers
+        // 3. IncrementCompletedRuns
+
+        var affectedRows = await _unitOfWork.Collections.Update($"dbo.spCollections_{category}", new { Id = id});
+
+        return affectedRows > 0 ? Ok() : NotFound();
+    }
+
     // DELETE api/<CollectionsController>/5
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id, [FromBody] int userId)
