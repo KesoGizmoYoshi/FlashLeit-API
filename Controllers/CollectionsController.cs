@@ -27,7 +27,7 @@ public class CollectionsController : ControllerBase
     }
 
     // GET api/<CollectionsController>/5
-    [HttpGet("{collectionId}/{userId}")]
+    [HttpGet("{collectionId}/user/{userId}")]
     public async Task<IActionResult> Get(int collectionId, int userId)
     {
         var collection = await _unitOfWork.Collections.GetCollectionWithCardsAsync("dbo.spCollections_GetById", collectionId, userId);
@@ -70,7 +70,7 @@ public class CollectionsController : ControllerBase
     {
         // (1). User clicks on "Clone collection" in the UI.
         // (2). A CollectionModel is created and sent to the API int the form of JSON.
-        // (3). This CollectionModel contains the PublicKey, the Title and the original authors UserId,
+        // (3). This CollectionModel contains tValuesController.cshe PublicKey, the Title and the original authors UserId,
         // (4). The id in the path parameter is the UserId of the user who wants to add the Collections to it's table of Collections.
 
         var results = await _unitOfWork.Collections.AddAsync("dbo.spCollections_Clone", new 

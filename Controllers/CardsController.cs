@@ -75,16 +75,8 @@ public class CardsController : ControllerBase
     }
 
     // DELETE api/<CardsController>/5
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(int id)
-    {
-        int affectedRows = await _unitOfWork.Cards.Delete("dbo.spCards_DeleteById", new { Id = id });
-
-        return affectedRows > 0 ? Ok("Delete successful") : NotFound("Card not found in the database");
-    }
-
-    [HttpDelete("[action]")]
-    public async Task<IActionResult> DeleteByPublicKey([FromBody] CardModel cardModel)
+    [HttpDelete]
+    public async Task<IActionResult> Delete([FromBody] CardModel cardModel)
     {
         int affectedRows = await _unitOfWork.Cards.Delete("dbo.spCards_DeleteCardByPublicKey",
             new { PublicKey = _keyService.ConstructPublicKey(cardModel.UserId, cardModel.Id) });
