@@ -25,26 +25,14 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
         return await _sql.LoadData<TEntity, dynamic>(storedProcedure, parameters);
     }
 
- 
-    //public async Task<IEnumerable<TEntity>> GetAsync(string storedProcedure, Expression<Func<TEntity, bool>> predicate)
-    //{
 
-    //    return await _sql.LoadData
-
-    //    return await _context.Set<TEntity>().Where(predicate).ToListAsync();
-    //}
     public async Task<IEnumerable<TEntity>> AddAsync(string storedProcedure, dynamic parameters)
     {
         var results = await _sql.LoadData<TEntity, dynamic>(storedProcedure, parameters);
 
         return results;
     }
-    //public async Task AddRangeAsync(IEnumerable<TEntity> entities)
-    //{
 
-    //    await _context.Set<TEntity>().AddRangeAsync(entities);
-    //    await _context.SaveChangesAsync();
-    //}
     public Task<int> Update(string storedProcedure, dynamic parameters)
     {
         var affectedRows = _sql.SaveData<dynamic>(storedProcedure, parameters);
@@ -57,9 +45,4 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
 
         return affectedRows;
     }
-    //public async Task RemoveRangeAsync(IEnumerable<TEntity> entities)
-    //{
-    //    _context.Set<TEntity>().RemoveRange(entities);
-    //    await _context.SaveChangesAsync();
-    //}
 }
