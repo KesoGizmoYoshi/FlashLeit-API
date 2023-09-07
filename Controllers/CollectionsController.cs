@@ -35,12 +35,12 @@ public class CollectionsController : ControllerBase
         return (collection != null) ? Ok(collection) : NotFound();
     }
 
-    [HttpGet("[action]/{id}")]
+    [HttpGet("user/{id}")]
     public async Task<IActionResult> GetCollectionsByUserId(int id)
     {
         var collections = await _unitOfWork.Collections.GetByIdAsync("dbo.spCollections_GetUserCollections", new {Id = id});
 
-        return Ok(collections);
+        return collections != null ? Ok(collections) : NotFound("No collections found");
     }
 
 
