@@ -98,7 +98,7 @@ public class CollectionsController : ControllerBase
         return affectedRows > 0 ? Ok() : NotFound();
     }
 
-    [HttpPut("[action]/{id}/{category}")]
+    [HttpPut("update-counter/{id}/{category}")]
     public async Task<IActionResult> UpdateCounter(int id, string category)
     {
         // Possible categories:
