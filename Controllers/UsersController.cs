@@ -85,6 +85,13 @@ public class UsersController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
+        // TODO: Steps for deleting the user from B2C
+        // 1. Create an AuthProvider. 
+        // 2. Create an GraphServiceClient.
+        // 3. Call DeleteAsync() with the users Object ID (xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx),
+        //    can be a parameter in the api call from the front-end.
+        // 4. If the user is removed from B2C --> Status code: 204 (No Content) in the response
+
         int affectedRows = await _unitOfWork.Users.Delete("dbo.spUsers_DeleteById", new { Id = id });
 
         return affectedRows > 0 ? Ok() : NotFound("User doesn't exist in the database");
