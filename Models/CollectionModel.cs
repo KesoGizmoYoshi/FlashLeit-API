@@ -22,6 +22,7 @@ public class CollectionModel
     public int AmountOfInCorrectAnswers { get; set; }
     public int AmountOfCompletedRuns { get; set; }
     public bool IsPublic { get; set; }
+    public int CardCount { get; set; }
 
     public CollectionModel()
     {
