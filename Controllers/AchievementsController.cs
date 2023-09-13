@@ -29,7 +29,7 @@ public class AchievementsController : ControllerBase
     {
         IEnumerable<AchievementModel>? achievements = await _unitOfWork.Achievements.GetByIdAsync("dbo.spAchievements_GetAchievementsByUserId", new { Id = id });
 
-        return (achievements is null) ? NotFound() : Ok(achievements);
+        return achievements != null ? Ok(achievements) : NotFound();
 
     }
 
