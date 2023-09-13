@@ -43,6 +43,14 @@ public class CollectionsController : ControllerBase
         return collections != null ? Ok(collections) : NotFound("No collections found");
     }
 
+    [HttpGet("author/{id}")]
+    public async Task<IActionResult> GetCollectionsByAuthorId(int id)
+    {
+        var collections = await _unitOfWork.Collections.GetByIdAsync("dbo.spCollections_GetAuthoredCollections", new {UserId = id});
+
+        return collections != null ? Ok(collections) : NotFound("No collections found");
+    }
+
 
     // POST api/<CollectionsController>
     [HttpPost]
