@@ -113,31 +113,17 @@ public class UsersController : ControllerBase
         string tenantId = "bf84b024-37c0-4f78-adf1-d182afd9c876";
         string clientSecret = "FOm8Q~4WFcpv2xkwO_hMI0mwAmgRIb7o_kk29cFU";
         
-        try
-        {
-            // This is used to authenticate against Azure AD with our application values
-            ClientSecretCredential clientSecretCredential = new ClientSecretCredential(tenantId, clientId, clientSecret);
+        // This is used to authenticate against Azure AD with our application values
+        ClientSecretCredential clientSecretCredential = new ClientSecretCredential(tenantId, clientId, clientSecret);
 
-            // This is used to make api calls to the Graph Api
-            GraphServiceClient graphClient = new GraphServiceClient(clientSecretCredential, scopes);
+        // This is used to make api calls to the Graph Api
+        GraphServiceClient graphClient = new GraphServiceClient(clientSecretCredential, scopes);
 
-            // This deletes the user from the Azure AD B2C, this call does not return any status codes.
-            await graphClient.Users[objectId].DeleteAsync();
+        // This deletes the user from the Azure AD B2C
+        await graphClient.Users[objectId].DeleteAsync();
 
-            // Because we have no status codes to confirm anything, we instead use GetAsync().
-            // This try to get the user that we just deleted, if the user is indeed deleted an exception will be thrown.
-            // And we will continue to delete the user from our database.
-            // If the user is still available in B2C, that means we failed to remove the user and a bad request will be returned.
-            User? result = await graphClient.Users[objectId].GetAsync();
+        int affectedRows = await _unitOfWork.Users.Delete("dbo.spUsers_DeleteById", new { Id = userId });
 
-            return BadRequest("Failed to delete the account.");
-        }
-        // Catches any exceptions related to fetching a already deleted user from Graph Api --> removes the user from our database.
-        catch (Microsoft.Graph.Models.ODataErrors.ODataError)
-        {
-            int affectedRows = await _unitOfWork.Users.Delete("dbo.spUsers_DeleteById", new { Id = userId });
-
-            return affectedRows > 0 ? Ok() : NotFound("User doesn't exist in the database");
-        };
+        return affectedRows > 0 ? Ok() : NotFound("User doesn't exist in the database");
     }
 }
