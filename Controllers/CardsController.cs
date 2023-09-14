@@ -82,7 +82,7 @@ public class CardsController : ControllerBase
             int affectedRows = await _unitOfWork.Cards.Update("dbo.spCards_UpdateLastReviewDate", new
             {
                 Id = id,
-                Date = card.LastReviewedDate
+                NewDate = card.LastReviewedDate
             });
 
             return (affectedRows == 1) ? Ok() : NotFound();
