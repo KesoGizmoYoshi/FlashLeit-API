@@ -79,7 +79,7 @@ public class CardsController : ControllerBase
     {
         if(card != null)
         {
-            int affectedRows = await _unitOfWork.Cards.Update("dbo.spCards_UpdateLastReviewDate", new
+            int affectedRows = await _unitOfWork.Cards.Update("dbo.spCards_UpdateLastReviewedDate", new
             {
                 Id = id,
                 NewDate = card.LastReviewedDate
