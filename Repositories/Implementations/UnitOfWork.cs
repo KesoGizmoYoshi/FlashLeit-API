@@ -11,6 +11,7 @@ public class UnitOfWork : IUnitOfWork
     public IUserRepository Users { get; set; }
     public ICollectionRepository Collections { get; set; }
     public IAchievementRepository Achievements { get; set; }
+    public IAvatarRepository Avatars { get; set }
 
     public UnitOfWork(ISqlDataAccess sql)
     {
@@ -19,6 +20,7 @@ public class UnitOfWork : IUnitOfWork
         Users = new UserRepository(_sql);
         Collections = new CollectionRepository(_sql);
         Achievements = new AchievementRepository(_sql);
+        Avatars = new AvatarRepository(_sql);
     }
 
     //public async Task CompleteAsync()
