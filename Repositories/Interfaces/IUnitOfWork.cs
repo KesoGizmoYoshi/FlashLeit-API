@@ -8,6 +8,7 @@ public interface IUnitOfWork : IDisposable
     public IUserRepository Users { get; set; }
     public ICollectionRepository Collections { get; set; }
     public IAchievementRepository Achievements { get; set; }
+    public IAvatarRepository Avatars { get; set; }
 
     public void Dispose();
 }

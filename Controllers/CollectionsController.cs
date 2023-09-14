@@ -43,6 +43,14 @@ public class CollectionsController : ControllerBase
         return collections != null ? Ok(collections) : NotFound("No collections found");
     }
 
+    [HttpGet("author/{id}")]
+    public async Task<IActionResult> GetCollectionsByAuthorId(int id)
+    {
+        var collections = await _unitOfWork.Collections.GetByIdAsync("dbo.spCollections_GetAuthoredCollections", new {UserId = id});
+
+        return collections != null ? Ok(collections) : NotFound("No collections found");
+    }
+
 
     // POST api/<CollectionsController>
     [HttpPost]
@@ -103,7 +111,7 @@ public class CollectionsController : ControllerBase
     {
         // Possible categories:
         // 1. IncrementCorrectAnswers
-        // 2. IncrementInCorrectAnswers
+        // 2. IncrementIncorrectAnswers
         // 3. IncrementCompletedRuns
 
         var affectedRows = await _unitOfWork.Collections.Update($"dbo.spCollections_{category}", new { Id = id});
@@ -113,7 +121,7 @@ public class CollectionsController : ControllerBase
 
     // DELETE api/<CollectionsController>/5
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(int id, [FromBody] int userId)
+    public async Task<IActionResult> Delete(int id, [FromQuery] int userId)
     {
         var affectedRows = await _unitOfWork.Collections.Delete("dbo.spCollections_DeleteByPublicKey", new { PublicKey = _keyService.ConstructPublicKey(userId, id) });
 

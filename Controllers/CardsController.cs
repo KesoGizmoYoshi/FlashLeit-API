@@ -65,7 +65,7 @@ public class CardsController : ControllerBase
                 PublicKey = _keyService.ConstructPublicKey(id, card.Id),
                 Question = card.Question,
                 Answer = card.Answer
-            }) ;
+            });
 
             return (affectedRows == 1) ? Ok() : NotFound();
 
@@ -73,6 +73,23 @@ public class CardsController : ControllerBase
 
         return BadRequest();
     }
+
+    [HttpPut("set-date/{id}")]
+    public async Task<IActionResult> SetDate(int id, [FromBody] CardModel card)
+    {
+        if(card != null)
+        {
+            int affectedRows = await _unitOfWork.Cards.Update("dbo.spCards_UpdateLastReviewedDate", new
+            {
+                Id = id,
+                NewDate = card.LastReviewedDate
+            });
+
+            return (affectedRows == 1) ? Ok() : NotFound();
+        }
+
+        return BadRequest();
+    } 
 
     // DELETE api/<CardsController>/5
     [HttpDelete]
