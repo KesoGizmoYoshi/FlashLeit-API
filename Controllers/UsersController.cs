@@ -55,7 +55,7 @@ public class UsersController : ControllerBase
                 Email = claims.Email,
                 AccountName = claims.DisplayName,
                 Username = claims.DisplayName,
-                AvatarUrl = "DefaultAvatarUrl.png"
+                AvatarUrl = $"/img/user_avatars/avatar_{new Random().Next(1, 16)}.png"
             });
 
             int userId = newUser.FirstOrDefault()!.Id;
