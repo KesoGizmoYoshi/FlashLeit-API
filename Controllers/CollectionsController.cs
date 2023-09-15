@@ -62,6 +62,7 @@ public class CollectionsController : ControllerBase
             {
                 UserId = collection.UserId,
                 Title = collection.Title,
+                Description = collection.Description,
                 IsPublic = collection.IsPublic
             });
 

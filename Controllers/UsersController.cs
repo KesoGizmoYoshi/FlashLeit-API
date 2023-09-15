@@ -1,7 +1,11 @@
-﻿using FlashLeit_API.Models.B2CRelatedModels;
+﻿using Azure.Identity;
+using FlashLeit_API.Models.B2CRelatedModels;
 using FlashLeit_API.Repositories.Interfaces;
 using flashleit_class_library.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Graph;
+using Microsoft.Graph.Models;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace FlashLeit_API.Controllers;
 [Route("api/[controller]")]
@@ -51,7 +55,7 @@ public class UsersController : ControllerBase
                 Email = claims.Email,
                 AccountName = claims.DisplayName,
                 Username = claims.DisplayName,
-                AvatarUrl = "DefaultAvatarUrl.png"
+                AvatarUrl = $"/img/user_avatars/avatar_{new Random().Next(1, 16)}.png"
             });
 
             int userId = newUser.FirstOrDefault()!.Id;
@@ -81,18 +85,44 @@ public class UsersController : ControllerBase
         return BadRequest();
     }
 
-    // DELETE api/<UsersController>/5
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(int id)
+    // DELETE api/<UsersController>/
+    [HttpDelete]
+    public async Task<IActionResult> Delete([FromHeader] string authorization)
     {
-        // TODO: Steps for deleting the user from B2C
-        // 1. Create an AuthProvider. 
-        // 2. Create an GraphServiceClient.
-        // 3. Call DeleteAsync() with the users Object ID (xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx),
-        //    can be a parameter in the api call from the front-end.
-        // 4. If the user is removed from B2C --> Status code: 204 (No Content) in the response
+        // This endpoint utilize claims in the ID-Token from the "authorization" request header.
+        // And looks like this: "authorization": "Bearer {The signed in users ID-Token}"
+        // We need the following claims from the ID-Token:
+        // 1. Object ID (claim "sub" in the token), this is used for deleting a user from Azure AD B2C.
+        // 2. User ID (claim "extension_UserId" in the token), this is used for deleting the user from out database.
+        // We need to use the Microsoft Graph Api for deleting users from B2C
 
-        int affectedRows = await _unitOfWork.Users.Delete("dbo.spUsers_DeleteById", new { Id = id });
+        // Decodes the ID-Token from "authorization" in the header to a JSON Web Token (JWT).
+        // This need to be done so we can access the claims we need.
+        // Starts at index 7 since "authorization" also includes "Bearer ".
+        JwtSecurityToken token = new(authorization.Substring(7));
+
+        // Extracts the value for the claims we are interested in from the JWT.
+        string objectId = token.Claims.First(c => c.Type == "sub").Value;
+        string userId = token.Claims.First(c => c.Type == "extension_UserId").Value;
+
+        // Default endpoint for the Microsoft Graph Api
+        string[] scopes = { "https://graph.microsoft.com/.default" };
+
+        // Values taken from out application registered in Azure AD B2C
+        string clientId = "24fdaf11-b4f2-467d-af76-2a8596c9c0ab";
+        string tenantId = "bf84b024-37c0-4f78-adf1-d182afd9c876";
+        string clientSecret = "FOm8Q~4WFcpv2xkwO_hMI0mwAmgRIb7o_kk29cFU";
+        
+        // This is used to authenticate against Azure AD with our application values
+        ClientSecretCredential clientSecretCredential = new ClientSecretCredential(tenantId, clientId, clientSecret);
+
+        // This is used to make api calls to the Graph Api
+        GraphServiceClient graphClient = new GraphServiceClient(clientSecretCredential, scopes);
+
+        // This deletes the user from the Azure AD B2C
+        await graphClient.Users[objectId].DeleteAsync();
+
+        int affectedRows = await _unitOfWork.Users.Delete("dbo.spUsers_DeleteById", new { Id = userId });
 
         return affectedRows > 0 ? Ok() : NotFound("User doesn't exist in the database");
     }
