@@ -76,7 +76,7 @@ public class CardsController : ControllerBase
     }
 
     [HttpPut("/leitner/{id}")]
-    public async Task<IActionResult> Put(int id, [FromBody] CardModel card)
+    public async Task<IActionResult> PutLeitnerIndex(int id, [FromBody] CardModel card)
     {
         if (card != null)
         {
