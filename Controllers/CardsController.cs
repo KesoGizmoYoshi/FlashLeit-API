@@ -3,6 +3,7 @@ using FlashLeit_API.Repositories.Interfaces;
 using FlashLeit_API.Services;
 using flashleit_class_library.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection;
 
 namespace FlashLeit_API.Controllers;
 [Route("api/[controller]")]
@@ -69,6 +70,23 @@ public class CardsController : ControllerBase
 
             return (affectedRows == 1) ? Ok() : NotFound();
 
+        }
+
+        return BadRequest();
+    }
+
+    [HttpPut("/leitner/{id}")]
+    public async Task<IActionResult> Put(int id, [FromBody] CardModel card)
+    {
+        if (card != null)
+        {
+            int affectedRows = await _unitOfWork.Cards.Update("dbo.spCards_UpdateLeitnerIndex", new
+            {
+                Id = id,
+                LeitnerIndex = card.LeitnerIndex
+            });
+
+            return (affectedRows == 1) ? Ok() : NotFound();
         }
 
         return BadRequest();
