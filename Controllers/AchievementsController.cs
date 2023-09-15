@@ -35,7 +35,7 @@ public class AchievementsController : ControllerBase
 
     // POST api/<AchievementsController>
     [HttpPost("{id}")]
-    public async Task<IActionResult> Post(int id, [FromBody] int achievementId)
+    public async Task<IActionResult> Post(int id, [FromQuery] int achievementId)
     {
         var result = await _unitOfWork.Achievements.AddAsync("dbo.spUserAchievements_InsertUserAchievementRelation", new { UserId = id, AchievementId = achievementId });
 
