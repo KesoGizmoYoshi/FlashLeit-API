@@ -82,7 +82,7 @@ public class CollectionsController : ControllerBase
         // (3). This CollectionModel contains tValuesController.cshe PublicKey, the Title and the original authors UserId,
         // (4). The id in the path parameter is the UserId of the user who wants to add the Collections to it's table of Collections.
 
-        var results = await _unitOfWork.Collections.AddAsync<CardModel>("dbo.spCollections_Clone", new
+        var results = await _unitOfWork.Collections.AddAsync("dbo.spCollections_Clone", new
         {
             AuthorId = collection.UserId,
             PublicKey = collection.PublicKey,
