@@ -26,7 +26,7 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     }
 
 
-    public async Task<IEnumerable<TEntity>> AddAsync(string storedProcedure, dynamic parameters)
+    public async Task<IEnumerable<TEntity>> AddAsync<TEntity>(string storedProcedure, dynamic parameters)
     {
         var results = await _sql.LoadData<TEntity, dynamic>(storedProcedure, parameters);
 
