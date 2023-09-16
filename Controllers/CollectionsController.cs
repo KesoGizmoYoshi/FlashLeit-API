@@ -58,7 +58,7 @@ public class CollectionsController : ControllerBase
     {
         if(collection != null)
         {
-            var newCollection = await _unitOfWork.Collections.AddAsync("dbo.spCollections_Insert", new
+            var results = await _unitOfWork.Collections.AddAsync("dbo.spCollections_Insert", new
             {
                 UserId = collection.UserId,
                 Title = collection.Title,
@@ -66,9 +66,9 @@ public class CollectionsController : ControllerBase
                 IsPublic = collection.IsPublic
             });
 
-            var collectionId = newCollection.FirstOrDefault().Id;
+            
 
-            return Ok(collectionId);
+            return Ok(results);
         }
 
         return BadRequest();
