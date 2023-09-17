@@ -66,9 +66,12 @@ public class CollectionsController : ControllerBase
                 IsPublic = collection.IsPublic
             });
 
-            
+            var id = results.FirstOrDefault()?.Id;
 
-            return Ok(results.FirstOrDefault().Id);
+            if(id.HasValue)
+            {
+                return Ok(new { Id = id.Value });
+            }
         }
 
         return BadRequest();
