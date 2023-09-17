@@ -68,7 +68,7 @@ public class CollectionsController : ControllerBase
 
             
 
-            return Ok(results.FirstOrDefault().Id);
+            return Ok(results.FirstOrDefault());
         }
 
         return BadRequest();
