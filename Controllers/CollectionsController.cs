@@ -91,7 +91,7 @@ public class CollectionsController : ControllerBase
             PublicKey = _keyService.ConstructPublicKey(collection.UserId, collection.Id),
             UserId = id,
             Title = collection.Title,
-            Descriptiion = collection.Description
+            Description = collection.Description
         });
 
 
