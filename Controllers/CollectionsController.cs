@@ -77,7 +77,7 @@ public class CollectionsController : ControllerBase
         return BadRequest();
     }
 
-    [HttpPost("[action]/{id}")]
+    [HttpPost("clone/{id}")]
     public async Task<IActionResult> CloneCollection(int id, [FromBody] CollectionModel collection)
     {
         // (1). User clicks on "Clone collection" in the UI.
