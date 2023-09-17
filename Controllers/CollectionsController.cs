@@ -88,7 +88,7 @@ public class CollectionsController : ControllerBase
         var results = await _unitOfWork.Collections.AddAsync("dbo.spCollections_Clone", new
         {
             AuthorId = collection.UserId,
-            PublicKey = collection.PublicKey,
+            PublicKey = _keyService.ConstructPublicKey(collection.UserId, collection.Id),
             UserId = id,
             Title = collection.Title
         });
