@@ -81,8 +81,8 @@ public class CollectionsController : ControllerBase
     public async Task<IActionResult> CloneCollection(int id, [FromBody] CollectionModel collection)
     {
         // (1). User clicks on "Clone collection" in the UI.
-        // (2). A CollectionModel is created and sent to the API int the form of JSON.
-        // (3). This CollectionModel contains tValuesController.cshe PublicKey, the Title and the original authors UserId,
+        // (2). A CollectionModel is created and sent to the API in the form of JSON.
+        // (3). This CollectionModel contains the PublicKey, the Title and the original authors UserId,
         // (4). The id in the path parameter is the UserId of the user who wants to add the Collections to it's table of Collections.
 
         var results = await _unitOfWork.Collections.AddAsync("dbo.spCollections_Clone", new
@@ -90,7 +90,8 @@ public class CollectionsController : ControllerBase
             AuthorId = collection.UserId,
             PublicKey = _keyService.ConstructPublicKey(collection.UserId, collection.Id),
             UserId = id,
-            Title = collection.Title
+            Title = collection.Title,
+            Descriptiion = collection.Description
         });
 
 
