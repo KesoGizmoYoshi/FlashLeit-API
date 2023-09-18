@@ -55,7 +55,7 @@ public class UsersController : ControllerBase
                 Email = claims.Email,
                 AccountName = claims.DisplayName,
                 Username = claims.DisplayName,
-                AvatarUrl = $"/img/user_avatars/avatar_{new Random().Next(1, 16)}.png"
+                SelectedAvatarUrl = $"/img/user_avatars/avatar_{new Random().Next(1, 5)}.png"
             });
 
             int userId = newUser.FirstOrDefault()!.Id;
@@ -76,7 +76,7 @@ public class UsersController : ControllerBase
             {
                 Id = id,
                 NewUserName = user.UserName,
-                NewAvatarUrl = user.AvatarUrl
+                NewSelectedAvatarUrl = user.SelectedAvatarUrl
             });
 
             return affectedRows > 0 ? Ok() : NotFound();

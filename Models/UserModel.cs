@@ -1,4 +1,5 @@
 ﻿
+using FlashLeit_API.Models;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
@@ -13,8 +14,8 @@ public class UserModel
     [MaxLength(50)]
     public string AccountName { get; set; }
     public string UserName { get; set; }
-    [MaxLength(50)]
-    public string AvatarUrl { get; set; }
+    public string SelectedAvatarUrl { get; set; }
+    public List<AvatarModel> UserAvatars { get; set; } = new();
     public List<CollectionModel>? Collections { get; set; } = new();
     public List<AchievementModel> Achievements { get; set; } = new();
     public UserModel()
