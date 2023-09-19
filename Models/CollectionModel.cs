@@ -21,7 +21,7 @@ public class CollectionModel
     public string Description { get; set; }
     public List<CardModel>? FlashCards { get; set; } = new();
     public int AmountOfCorrectAnswers { get; set; }
-    public int AmountOfInCorrectAnswers { get; set; }
+    public int AmountOfIncorrectAnswers { get; set; }
     public int AmountOfCompletedRuns { get; set; }
     public bool IsPublic { get; set; }
     public int CardCount { get; set; }
