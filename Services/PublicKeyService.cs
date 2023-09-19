@@ -7,7 +7,6 @@ public class PublicKeyService : IPublicKeyService
 
     }
 
-
     public int ConstructPublicKey(int userId, int itemId)
     {
         string concatenatedNumberString = $"{userId}{itemId}";

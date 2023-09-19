@@ -19,21 +19,18 @@ public class UsersController : ControllerBase
         _unitOfWork = unitOfWork;
     }
 
-    // GET: api/<UsersController>
     [HttpGet]
     public async Task<IActionResult> Get()
     {
         return Ok(await _unitOfWork.Users.GetAllAsync("dbo.spUsers_GetAll", new { }));
     }
 
-    // GET api/<UsersController>/5
     [HttpGet("{id}")]
     public async Task<IActionResult> Get(int id)
     {
         return Ok(await _unitOfWork.Users.GetByIdAsync("dbo.spUsers_GetById", new {Id = id}));
     }
 
-    // POST api/<UsersController>
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] RegistrationClaimsModel claims)
     {
@@ -66,7 +63,6 @@ public class UsersController : ControllerBase
         return new BadRequestObjectResult(new { version = "1.0.0", status = 400, action = "ValidationError", userMessage = "Username is already in use!" });
     }
 
-    // PUT api/<UsersController>/5
     [HttpPut("{id}")]
     public async Task<IActionResult> Put(int id, [FromBody] UserModel user)
     {
@@ -85,7 +81,6 @@ public class UsersController : ControllerBase
         return BadRequest();
     }
 
-    // DELETE api/<UsersController>/
     [HttpDelete]
     public async Task<IActionResult> Delete([FromHeader] string authorization)
     {

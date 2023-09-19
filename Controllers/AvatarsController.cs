@@ -1,7 +1,6 @@
 ﻿using FlashLeit_API.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace FlashLeit_API.Controllers;
 [Route("api/[controller]")]
@@ -16,7 +15,6 @@ public class AvatarsController : ControllerBase
         _unitOfWork = unitOfWork;
     }
 
-    // GET: api/<AvatarsController>
     [HttpGet]
     public async Task<IActionResult> Get()
     {
@@ -24,7 +22,6 @@ public class AvatarsController : ControllerBase
 
         return avatars != null ? Ok(avatars) : NotFound("No avatars found");
     }
-
 
     [HttpGet("{id}")]
     public async Task<IActionResult> Get(int id)
@@ -34,8 +31,6 @@ public class AvatarsController : ControllerBase
 
         return avatars != null ? Ok(avatars) : NotFound("No avatars found");
     }
-
-
 
     [HttpPost("{userId}")]
     public async Task<IActionResult> Post(int userId, [FromQuery] int avatarId)

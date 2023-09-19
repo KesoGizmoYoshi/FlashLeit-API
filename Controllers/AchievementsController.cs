@@ -16,14 +16,12 @@ public class AchievementsController : ControllerBase
         _unitOfWork = unitOfWork;
     }
 
-    // GET: api/<AchievementsController>
     [HttpGet]
     public async Task<IActionResult> Get()
     {
         return Ok(await _unitOfWork.Achievements.GetAllAsync("dbo.spAchievements_GetAll", new { }));
     }
 
-    // GET api/<AchievementsController>/5
     [HttpGet("{id}")]
     public async Task<IActionResult> Get(int id)
     {
@@ -33,7 +31,6 @@ public class AchievementsController : ControllerBase
 
     }
 
-    // POST api/<AchievementsController>
     [HttpPost("{id}")]
     public async Task<IActionResult> Post(int id, [FromQuery] int achievementId)
     {

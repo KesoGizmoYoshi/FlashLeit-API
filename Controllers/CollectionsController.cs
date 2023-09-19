@@ -2,7 +2,7 @@
 using FlashLeit_API.Services;
 using flashleit_class_library.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Cryptography.X509Certificates;
+
 
 namespace FlashLeit_API.Controllers;
 [Route("api/[controller]")]
@@ -12,21 +12,18 @@ public class CollectionsController : ControllerBase
     private readonly IUnitOfWork _unitOfWork;
     private readonly IPublicKeyService _keyService;
 
-
     public CollectionsController(IUnitOfWork unitOfWork, IPublicKeyService keyService)
     {
         _unitOfWork = unitOfWork;
         _keyService = keyService;
     }
 
-    // GET: api/<CollectionsController>
     [HttpGet]
     public async Task<IActionResult> Get()
     {
         return Ok(await _unitOfWork.Collections.GetAllAsync("dbo.spCollections_GetAll", new { }));
     }
 
-    // GET api/<CollectionsController>/5
     [HttpGet("{collectionId}/user/{userId}")]
     public async Task<IActionResult> Get(int collectionId, int userId)
     {
@@ -51,8 +48,6 @@ public class CollectionsController : ControllerBase
         return collections != null ? Ok(collections) : NotFound("No collections found");
     }
 
-
-    // POST api/<CollectionsController>
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] CollectionModel collection)
     {
@@ -80,10 +75,6 @@ public class CollectionsController : ControllerBase
     [HttpPost("clone/{id}")]
     public async Task<IActionResult> CloneCollection(int id, [FromBody] CollectionModel collection)
     {
-        // (1). User clicks on "Clone collection" in the UI.
-        // (2). A CollectionModel is created and sent to the API in the form of JSON.
-        // (3). This CollectionModel contains the PublicKey, the Title and the original authors UserId,
-        // (4). The id in the path parameter is the UserId of the user who wants to add the Collections to it's table of Collections.
 
         var results = await _unitOfWork.Collections.AddAsync("dbo.spCollections_Clone", new
         {
@@ -94,11 +85,9 @@ public class CollectionsController : ControllerBase
             Description = collection.Description
         });
 
-
         return results != null ? Ok() : NotFound();
     }
 
-    // PUT api/<CollectionsController>/5
     [HttpPut("{id}")]
     public async Task<IActionResult> Put(int id, [FromBody] CollectionModel collection)
     {
@@ -114,17 +103,19 @@ public class CollectionsController : ControllerBase
     [HttpPut("update-counter/{id}/{category}")]
     public async Task<IActionResult> UpdateCounter(int id, string category)
     {
-        // Possible categories:
-        // 1. IncrementCorrectAnswers
-        // 2. IncrementIncorrectAnswers
-        // 3. IncrementCompletedRuns
-
         var affectedRows = await _unitOfWork.Collections.Update($"dbo.spCollections_{category}", new { Id = id});
 
         return affectedRows > 0 ? Ok() : NotFound();
     }
 
-    // DELETE api/<CollectionsController>/5
+    [HttpDelete("/delete/{id}")]
+    public async Task<IActionResult> DeletePrivateCollection(int id)
+    {
+        var affectedRows = await _unitOfWork.Collections.Delete("dbo.spCollections_DeletePrivateCollectionById", new { Id = id });
+
+        return affectedRows > 0 ? Ok(affectedRows) : NotFound();
+    }
+
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id, [FromQuery] int userId)
     {

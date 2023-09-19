@@ -17,14 +17,13 @@ public class CardsController : ControllerBase
         _unitOfWork = unitOfWork;
         _keyService = keyService;
     }
-    // GET: api/<CardsController>
+
     [HttpGet]
     public async Task<IActionResult> Get()
     {
         return Ok(await _unitOfWork.Cards.GetAllAsync("dbo.spCards_GetAll", null));
     }
 
-    // GET api/<CardsController>/5
     [HttpGet("{id}")]
     public async Task<IActionResult> Get(int id)
     {
@@ -34,7 +33,6 @@ public class CardsController : ControllerBase
 
     }
 
-    // POST api/<CardsController>
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] CardModel card)
     {
@@ -55,7 +53,6 @@ public class CardsController : ControllerBase
         else return BadRequest();
     }
 
-    // PUT api/<CardsController>/5
     [HttpPut("{id}")]
     public async Task<IActionResult> Put(int id, [FromBody] CardModel card)
     {
@@ -109,12 +106,13 @@ public class CardsController : ControllerBase
         return BadRequest();
     } 
 
-    // DELETE api/<CardsController>/5
     [HttpDelete]
     public async Task<IActionResult> Delete([FromBody] CardModel cardModel)
     {
-        int affectedRows = await _unitOfWork.Cards.Delete("dbo.spCards_DeleteCardByPublicKey",
-            new { PublicKey = _keyService.ConstructPublicKey(cardModel.UserId, cardModel.Id) });
+        int affectedRows = await _unitOfWork.Cards.Delete("dbo.spCards_DeleteCardByPublicKey",new 
+        { 
+            PublicKey = _keyService.ConstructPublicKey(cardModel.UserId, cardModel.Id) 
+        });
 
         return affectedRows > 0 ? Ok("Delete successful") : NotFound("Card not found in the database");
     }
